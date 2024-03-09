@@ -24,9 +24,7 @@ public class metodosArbol {
             Arbol = construirArbolExpresion(expresion);
             System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());
             mostrarArbol(Arbol);
-
             return Arbol;
-
         }
         return Arbol;
     }
