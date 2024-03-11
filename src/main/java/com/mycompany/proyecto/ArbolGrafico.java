@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ArbolGrafico extends JPanel {
-   
+
     private Nodo arbol;
 
     public ArbolGrafico(Nodo arbol) {

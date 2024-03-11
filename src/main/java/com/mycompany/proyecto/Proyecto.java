@@ -14,6 +14,8 @@ public class Proyecto {
 
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
+        Nodo ArbolExpresion = new Nodo();
+        Arbol arbol = new Arbol();
         Nodo Arbol = new Nodo();
         metodosArbol metodos = new metodosArbol();
         String expresion = "";
@@ -42,6 +44,7 @@ public class Proyecto {
                     while (contador < verificarVariables(expresion)) {
                         System.out.println("Debe ingresar la letra de la variable: ");
                         variable = entrada.nextLine();
+                        System.out.println("Debe ingresar un numero a la variable: " + variable);
                         System.out.println("Debe ingresar un numero a la variable: " + variable );
                         valor = entrada.nextLine();
                         expresionNueva = colocarVariables(expresionNueva, variable, valor);
@@ -50,6 +53,9 @@ public class Proyecto {
                     System.out.println("La expresion es : " + expresionNueva);
                     break;
                 case 2:
+                    ArbolExpresion = arbol.ArbolExpresion(expresionNueva);
+                    arbol.mostrarArbol(ArbolExpresion);
+                    Pintar(ArbolExpresion);
                     Arbol = metodos.Arbol(expresionNueva);
                     metodos.mostrarArbol(Arbol);
                     Pintar(Arbol);
@@ -58,6 +64,7 @@ public class Proyecto {
         } while (opcion != 3);
     }
 //aqui muestra el arbolito
+
     public static void Pintar(Nodo Arbol) {
         JFrame frame = new JFrame("Árbol de Expresión");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +77,6 @@ public class Proyecto {
         frame.setVisible(true);
     }
 
-    
     //aqui revisa las variables ingresadas
     public static int verificarVariables(String expresion) {
         List<Character> variables = new ArrayList<>();
@@ -90,6 +96,10 @@ public class Proyecto {
                 contador++;
             }
         }
+        for (Character variable : variables) {
+            System.out.print(variable + " -");
+        }
+        System.out.println();
         for(Character variable: variables) {
             System.out.print(variable+ " -");         
         }
