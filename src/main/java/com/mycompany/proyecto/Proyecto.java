@@ -14,15 +14,25 @@ public class Proyecto {
 
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
+        //contiene las validaciones
+        Validacion validar = new Validacion();
+        //es lo que le mandos a pintar
         Nodo ArbolExpresion = new Nodo();
+        //contiene los metodos del arbol
         Arbol arbol = new Arbol();
-        Nodo Arbol = new Nodo();
-        metodosArbol metodos = new metodosArbol();
+        //Pila que retorna validacion
+        Stack<String> expresionPostfija = new Stack<String>();
+        //expresionInicial
         String expresion = "";
+        //la expresion formateada
         String expresionNueva = "";
+        //indicar seleccion
         Integer opcion;
+        //contador para iterrar hasta
         int contador = 0;
+        //variables ingresadas
         String variable = "";
+        //valoir dado a las variables
         String valor = "";
         //Nodo raiz = new Nodo();
         System.out.println("Bienvenido a Proyecto 1!");
@@ -37,34 +47,32 @@ public class Proyecto {
                     entrada.nextLine();
                     System.out.println("Ingrese una expresion:");
                     expresion = entrada.nextLine();
-                    System.out.println("La expresion es : " + expresion);
-                    System.out.println("Debe ingresar numeros para las variables: ");
-                    verificarVariables(expresion);
+                    if (validar.validarExpresion(expresion) == false) {
+                        break;
+                    }
+                    validar.verificarVariables(expresion);
                     expresionNueva = expresion;
-                    while (contador < verificarVariables(expresion)) {
-                        System.out.println("Debe ingresar la letra de la variable: ");
+                    while (contador < validar.verificarVariables(expresion)) {
+                        System.out.println("Ingrese la letra de la variable al que desea asignar un valor: ");
                         variable = entrada.nextLine();
                         System.out.println("Debe ingresar un numero a la variable: " + variable);
-                        System.out.println("Debe ingresar un numero a la variable: " + variable );
                         valor = entrada.nextLine();
-                        expresionNueva = colocarVariables(expresionNueva, variable, valor);
+                        //aqui sustituimos los valores ya sean a b ...
+                        expresionNueva = validar.colocarVariables(expresionNueva, variable, valor);
                         contador++;
                     }
-                    System.out.println("La expresion es : " + expresionNueva);
+                    expresionPostfija = validar.conversion(expresionNueva);
                     break;
                 case 2:
-                    ArbolExpresion = arbol.ArbolExpresion(expresionNueva);
-                    arbol.mostrarArbol(ArbolExpresion);
+                    ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);
+                   // arbol.mostrarArbol(ArbolExpresion);
                     Pintar(ArbolExpresion);
-                    Arbol = metodos.Arbol(expresionNueva);
-                    metodos.mostrarArbol(Arbol);
-                    Pintar(Arbol);
                     break;
             }
         } while (opcion != 3);
     }
 //aqui muestra el arbolito
-
+////(12+1)-(3-2)+5
     public static void Pintar(Nodo Arbol) {
         JFrame frame = new JFrame("Árbol de Expresión");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,50 +83,6 @@ public class Proyecto {
 
         frame.add(panel);
         frame.setVisible(true);
-    }
-
-    //aqui revisa las variables ingresadas
-    public static int verificarVariables(String expresion) {
-        List<Character> variables = new ArrayList<>();
-        int contador = 0;
-        char[] noVariables = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-'};
-        for (int i = 0; i < expresion.length(); i++) {
-            char caracter = expresion.charAt(i);
-            boolean esVariable = true;
-            for (char noVariable : noVariables) {
-                if (caracter == noVariable) {
-                    esVariable = false;
-                    break;
-                }
-            }
-            if (esVariable && !variables.contains(caracter)) {
-                variables.add(caracter);
-                contador++;
-            }
-        }
-        for (Character variable : variables) {
-            System.out.print(variable + " -");
-        }
-        System.out.println();
-        for(Character variable: variables) {
-            System.out.print(variable+ " -");         
-        }
-        System.out.println();     
-        return contador;
-    }
-
-    //asigna valores a las variables ingresadas
-    public static String colocarVariables(String expresion, String caracter, String valor) {
-        String expresionNueva = "";
-        for (int i = 0; i < expresion.length(); i++) {
-            if (expresion.charAt(i) == caracter.charAt(0)) {
-                expresionNueva += valor;
-            } else {
-                expresionNueva += expresion.charAt(i);
-            }
-        }
-        System.out.println("expresion nueuva: " + expresionNueva);
-        return expresionNueva;
     }
 
 }
