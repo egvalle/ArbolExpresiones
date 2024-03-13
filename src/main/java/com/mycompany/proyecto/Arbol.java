@@ -51,11 +51,6 @@ public class Arbol {
         }
         return pilaNodo.pop();
     }
-/*
-    private String recorridoInorden(String expresion){
-        
-    }
-    */
 }
 
 /*

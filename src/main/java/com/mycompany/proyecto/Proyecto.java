@@ -61,11 +61,19 @@ public class Proyecto {
                         expresionNueva = validar.colocarVariables(expresionNueva, variable, valor);
                         contador++;
                     }
-                    expresionPostfija = validar.conversion(expresionNueva);
+                    //preorodenRID
+                    //inordenIRD
+                    //postorden IDR
+                    expresionPostfija = validar.conversionPostorden(expresionNueva);
+                    System.out.println("Expresion InOrden   [I-R-D]");
+                    System.out.println(expresionNueva);
+                    validar.conversionPreorden(expresionNueva);
+                    //aqui tengo que pasarle la pila a funcion para evaluar [recordar]
+                    validar.resultadoNotacionPolaca(expresionPostfija);
                     break;
                 case 2:
                     ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);
-                   // arbol.mostrarArbol(ArbolExpresion);
+                    // arbol.mostrarArbol(ArbolExpresion);
                     Pintar(ArbolExpresion);
                     break;
             }
@@ -73,6 +81,7 @@ public class Proyecto {
     }
 //aqui muestra el arbolito
 ////(12+1)-(3-2)+5
+
     public static void Pintar(Nodo Arbol) {
         JFrame frame = new JFrame("Árbol de Expresión");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
