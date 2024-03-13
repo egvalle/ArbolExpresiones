@@ -44,7 +44,7 @@ public class Proyecto {
             opcion = entrada.nextInt();
             switch (opcion) {
                 case 1:
-                    entrada.nextLine();
+                    entrada.nextLine(); 
                     System.out.println("Ingrese una expresion:");
                     expresion = entrada.nextLine();
                     if (validar.validarExpresion(expresion) == false) {
@@ -81,6 +81,7 @@ public class Proyecto {
     }
 //aqui muestra el arbolito
 ////(12+1)-(3-2)+5
+    //pruebas //(12+3)-(5-3)+3
 
     public static void Pintar(Nodo Arbol) {
         JFrame frame = new JFrame("Árbol de Expresión");
