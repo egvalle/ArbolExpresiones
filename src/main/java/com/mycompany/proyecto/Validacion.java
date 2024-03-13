@@ -115,7 +115,7 @@ public class Validacion {
     }
 
     //realiza la conversion de inorden a preorden
-    public void conversionPreorden(String expresion) {
+    public Stack<String> conversionPreorden(String expresion) {
         //la primerma condicion es recorrer de derecha a izquierda la expresion
         Stack<String> expresionPreOrden = new Stack<>();
         Stack<String> operadores = new Stack<>();
@@ -160,6 +160,7 @@ public class Validacion {
             System.out.print(expresionPreOrden.get(i) + " ");
         }
         System.out.println();
+        return expresionPreOrden;
     }
 
     //como estamos trabajando tanto con raices o division puede devolvernos valores double
@@ -182,7 +183,7 @@ public class Validacion {
                 pilaOperadoresOperandos.add(resultado);
             }
         }
-        System.out.println("El resultado de evaluar la notacion postFija es: " + pilaOperadoresOperandos.pop());
+        System.out.println("El resultado de evaluar la Notacion Polaca es: " + pilaOperadoresOperandos.pop());
     }
 // aqui evaluamos los opoeradores  y retornamos el resultadoo
 

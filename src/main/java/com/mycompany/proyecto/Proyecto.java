@@ -22,6 +22,8 @@ public class Proyecto {
         Arbol arbol = new Arbol();
         //Pila que retorna validacion
         Stack<String> expresionPostfija = new Stack<String>();
+        //En esta pila nos va a retornar la expresion polaca o preorden pero estara al reves por lo cual hay que leerla al reves para evaluarla en validacioon
+        Stack<String> expresionPolaca = new Stack<String>();
         //expresionInicial
         String expresion = "";
         //la expresion formateada
@@ -67,9 +69,10 @@ public class Proyecto {
                     expresionPostfija = validar.conversionPostorden(expresionNueva);
                     System.out.println("Expresion InOrden   [I-R-D]");
                     System.out.println(expresionNueva);
-                    validar.conversionPreorden(expresionNueva);
+                    //retornamos una pila al reves de validacion
+                    expresionPolaca = validar.conversionPreorden(expresionNueva);
                     //aqui tengo que pasarle la pila a funcion para evaluar [recordar]
-                    validar.resultadoNotacionPolaca(expresionPostfija);
+                    validar.resultadoNotacionPolaca(expresionPolaca);
                     break;
                 case 2:
                     ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);

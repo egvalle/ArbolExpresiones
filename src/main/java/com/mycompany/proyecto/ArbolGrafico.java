@@ -10,6 +10,8 @@ package com.mycompany.proyecto;
  *
  * @author victo
  */
+import javax.swing.*;
+import java.awt.*;
 
 import javax.swing.*;
 import java.awt.*;
