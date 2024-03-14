@@ -83,6 +83,8 @@ public class Validacion {
                 //concatenar la cadena de numeros
                 numero += expresion.charAt(i);
                 //si no es un digito corta y mandalo a la pila
+                // Si estamos en el último carácter de la expresión o el carácter siguiente no es un dígito,
+// significa que el número actual ha terminado y debe agregarse a la pila expresionPostfija.
                 if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
 //aniade al rsultado el numero 
                     expresionPostfija.add(numero);
@@ -141,6 +143,8 @@ public class Validacion {
                 //concatenar la cadena de numeros
                 numero = expresion.charAt(i) + numero;
                 //si no es un digito corta y mandalo a la pila
+                // Si estamos en el primer carácter de la expresión o el carácter anterior no es un dígito,
+                // significa que el número actual ha terminado y debe agregarse a la pila expresionPreOrden.
                 if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {
 //aniade al rsultado el numero 
                     expresionPreOrden.add(numero);
