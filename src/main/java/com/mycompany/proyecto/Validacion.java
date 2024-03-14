@@ -162,6 +162,8 @@ public class Validacion {
         System.out.println();
         return expresionPreOrden;
     }
+    
+    
 
     //como estamos trabajando tanto con raices o division puede devolvernos valores double
     public void resultadoNotacionPolaca(Stack<String> expresionPila) {

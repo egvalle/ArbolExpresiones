@@ -24,7 +24,7 @@ public class Arbol {
     //ver de inffija a postfija consejo del inge
     public Nodo ArbolExpresion(Stack<String> expresionPostFija) {
         Arbol = construirArbolExpresion(expresionPostFija);
-        System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());
+        //System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());
         return Arbol;
     }
 
@@ -51,6 +51,19 @@ public class Arbol {
         }
         return pilaNodo.pop();
     }
+
+    public void recorrerInorden(Nodo nodo) {
+        if (nodo != null) {
+            if (nodo.getNodoIzquierda() != null) {
+                recorrerInorden(nodo.getNodoIzquierda());
+            }
+            System.out.print(nodo.getActual() + " ");
+            if (nodo.getNodoDerecha() != null) {
+                recorrerInorden(nodo.getNodoDerecha());
+            }
+        }
+    }
+
 }
 
 /*
