@@ -44,7 +44,7 @@ public class Nodo {
     }
 ```
 
-Seguimos con los constructores por lo que se agrega un constructor vacio para instanciar un nodo vacio.
+Seguimos con los getters y setters *metodos de acceso* por lo que se agrega un constructor vacio para instanciar un nodo vacio.
 
 ```java
 public Nodo(){
