@@ -66,110 +66,56 @@ public class Validacion {
         // ya luegoo en el while del menu va a iterar 2 vecces y nos pedira la letra de la variable y su valor para pasarlo a la otora funcion  
         return contador;
     }
-    //conversion de inorden a postoorden
-
-    //realiza la conversion de la expresion pero tambien retorna ya una pila de string para convertir a nodo en arbol
-    /*public Stack<String> conversionPostorden(String expresion) {
-        //la primerma condicion es recorrer de izquierda a derecha la expresion
-        Stack<String> expresionPostfija = new Stack<>();
-        Stack<String> operadores = new Stack<>();
-        String numero = "";
-
-        //int contadorPrueba = 0;
-        for (int i = 0; i < expresion.length(); i++) {
-
-            //si es un numero
-            if (Character.isDigit(expresion.charAt(i))) {
-                //concatenar la cadena de numeros
-                numero += expresion.charAt(i);
-                //si no es un digito corta y mandalo a la pila
-                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
-                    //aniade al rsultado el numero 
-                    expresionPostfija.add(numero);
-                    numero = "";
-                }
-                //si es un operador o abre un parentesis manda la expresion a la pila de operadores
-            } else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == '(') {
-                operadores.add(String.valueOf(expresion.charAt(i)));
-                //si encuentras el cierre entonces
-            } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre
-                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de apertura
-                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
-                    expresionPostfija.add(operadores.pop());
-                }
-                //cuando encuentres el parentesis de apertura sacalo
-                operadores.pop();
-            }
-        }
-        //por ultimo supongamos el caso (a+b)-(c-d)
-        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz
-        while (!operadores.isEmpty()) {
-            expresionPostfija.add(operadores.pop());
-        }
-        System.out.println("Expresion PostOrden [I-D-R]");
-        for (String expresiones : expresionPostfija) {
-            System.out.print(expresiones + " ");
-        }
-        System.out.println();
-        return expresionPostfija;
-    } */
-
     
+    //conversion de inorden a postoorden
     public Stack<String> conversionPostorden(String expresion) {
-    Stack<String> expresionPostfija = new Stack<>();
-    Stack<Character> operadores = new Stack<>();
+        Stack<String> expresionPostfija = new Stack<>();
+        Stack<Character> operadores = new Stack<>();
 
-    for (int i = 0; i < expresion.length(); i++) {
-        char c = expresion.charAt(i);
+        for (int i = 0; i < expresion.length(); i++) {
+            char c = expresion.charAt(i);
 
-        if (Character.isLetterOrDigit(c)) {
-            // Si es una letra o dígito, agregar al resultado final
-            expresionPostfija.add(String.valueOf(c));
-        } else if (c == '+' || c == '-') {
-            // Si es un operador de suma o resta, desapilar operadores hasta encontrar '('
-            while (!operadores.isEmpty() && operadores.peek() != '(') {
-                expresionPostfija.add(String.valueOf(operadores.pop()));
+            if (Character.isLetterOrDigit(c)) {
+                // Si es una letra o dígito, agregar al resultado final
+                expresionPostfija.add(String.valueOf(c));
+            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+                // Si es un operador
+                while (!operadores.isEmpty() && prioridadOperador(c) <= prioridadOperador(operadores.peek())) {
+                    expresionPostfija.add(String.valueOf(operadores.pop()));
+                }
+                operadores.push(c);
+            } else if (c == '(') {
+                // Si es un paréntesis de apertura, agregar a la pila de operadores
+                operadores.push(c);
+            } else if (c == ')') {
+                // Si es un paréntesis de cierre, desapilar operadores hasta encontrar '('
+                while (!operadores.isEmpty() && operadores.peek() != '(') {
+                    expresionPostfija.add(String.valueOf(operadores.pop()));
+                }
+                operadores.pop(); // Eliminar '(' de la pila
             }
-            operadores.push(c);
-        } else if (c == '*' || c == '/') {
-            // Si es un operador de multiplicación o división, desapilar operadores con mayor o igual prioridad
-            while (!operadores.isEmpty() && (operadores.peek() == '*' || operadores.peek() == '/')) {
-                expresionPostfija.add(String.valueOf(operadores.pop()));
-            }
-            operadores.push(c);
-        } else if (c == '(') {
-            // Si es un paréntesis de apertura, agregar a la pila de operadores
-            operadores.push(c);
-        } else if (c == ')') {
-            // Si es un paréntesis de cierre, desapilar operadores hasta encontrar '('
-            while (!operadores.isEmpty() && operadores.peek() != '(') {
-                expresionPostfija.add(String.valueOf(operadores.pop()));
-            }
-            operadores.pop(); // Eliminar '(' de la pila
+        }
+
+        // Desapilar todos los operadores restantes
+        while (!operadores.isEmpty()) {
+            expresionPostfija.add(String.valueOf(operadores.pop()));
+        }
+
+        return expresionPostfija;
+    }
+
+    private int prioridadOperador(char operador) {
+        switch (operador) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            default:
+                return 0; // Para cualquier otro operador, como '(' o ')'
         }
     }
-
-    // Desapilar todos los operadores restantes
-    while (!operadores.isEmpty()) {
-        expresionPostfija.add(String.valueOf(operadores.pop()));
-    }
-
-    return expresionPostfija;
-}
-
-
-/*private int prioridadOperador(char operador) {
-    switch (operador) {
-        case '+':
-        case '-':
-            return 1;
-        case '*':
-        case '/':
-            return 2;
-        default:
-            return 0; // Para cualquier otro operador, como '(' o ')'
-    }
-}*/
     
     //realiza la conversion de inorden a preorden
     public Stack<String> conversionPreorden(String expresion) {

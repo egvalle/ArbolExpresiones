@@ -28,33 +28,6 @@ public class Arbol {
         return Arbol;
     }
     
-
-    /* private Nodo construirArbolExpresion(Stack<String> expresionPostfija) {
-        //la pila debe contener caracteres
-        Stack<String> pilaPostfija = expresionPostfija;
-        Stack<Nodo> pilaNodo = new Stack<>();
-        //En el casoo de que se recorra de Izquierda a derecha queda de la siguiente manera        
-        //a+b -> b+a
-        for (String dato : pilaPostfija) {
-            //el primer valor deberia ser la raiz osea un operador
-            if (!validar.esOperador(dato)) {
-                //ccrea un nodo del operando
-                pilaNodo.add(new Nodo(dato));
-                // los siguiente operandos
-            } else if (validar.esOperador(dato)) {
-                Nodo raiz = new Nodo(dato);
-                Nodo hijoDerecho = pilaNodo.pop();
-                Nodo hijoIzquierdo = pilaNodo.pop();
-                raiz.setNodoDerecha(hijoDerecho);
-                raiz.setNodoIzquierda(hijoIzquierdo);
-                pilaNodo.add(raiz);
-            }
-        }
-        return pilaNodo.pop();
-    } */
-    
-    
-    
     private Nodo construirArbolExpresion(Stack<String> expresionPostFija) {
         Stack<Nodo> pilaNodo = new Stack<>();
         Stack<String> pilaNodoTemporal = new Stack<>(); // Pila temporal para almacenar los nodos dentro del paréntesis
@@ -87,19 +60,3 @@ public class Arbol {
     }
     
 }
-
-/*
-    public void mostrarArbol(Nodo nodo) {
-        if (nodo != null) {
-            System.out.println(" " + nodo.getActual() + " ");
-            if (nodo.getNodoIzquierda() != null) {
-                System.out.println("Subárbol izquierdo [<-]:");
-                mostrarArbol(nodo.getNodoIzquierda());
-            }
-            if (nodo.getNodoDerecha() != null) {
-                System.out.println("Subárbol derecho [->]:");
-                mostrarArbol(nodo.getNodoDerecha());
-            }
-        }
-    }
- */
