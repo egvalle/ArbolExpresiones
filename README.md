@@ -29,8 +29,7 @@ Consiste en realizar una aplicación que reciba en una caja de texto una expresi
 
 La clase "Nodo" representa un nodo en una estructura de árbol binario la cual se creo con lo siguientes atributos los cuales incian con el valor almacenado en el nodo y las referencias al nodo hijo izquierdo y al nodo hijo derecho.
 
-```
-java
+```java
 public class Nodo {
 
     private String actual;
