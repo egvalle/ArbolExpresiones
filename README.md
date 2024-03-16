@@ -5,7 +5,7 @@ Victor Alfredo Macario Enriquez 7690-22-5042
 
 Edwin Geovany Valle Benito
 
-Marvin Geobany Reyna Ortega
+Marvin Geobany Reyna Ortega 7690-22-8291
 
 
 ## Descripcion de Proyecto
