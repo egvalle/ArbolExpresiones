@@ -29,8 +29,7 @@ Consiste en realizar una aplicación que reciba en una caja de texto una expresi
 
 La clase "Nodo" representa un nodo en una estructura de árbol binario la cual se creo con lo siguientes atributos los cuales incian con el valor almacenado en el nodo y las referencias al nodo hijo izquierdo y al nodo hijo derecho.
 
-```
-java
+```java
 public class Nodo {
 
     private String actual;
@@ -189,13 +188,39 @@ public static void main(String[] args) {
         System.out.println("Bienvenido a Proyecto 1!");
 ```
 
-Dentro del main realizamos un menu, el cual nos ayudara a que la interacción con el usuario sea mas agradable, se utiliza un ciclo do-while para el mismo. 
+Este fragmento de código representa un bucle do-while que muestra un menú de opciones al usuario y ejecuta diferentes acciones según la opción seleccionada. Aquí está la explicación de cada parte del código:
 
-Dentro del Case 1: se validará que la función ingresada sea valida mediante un if. se verificara la cantidad de variables ingresadas y en el While se solicitara al usuario que ingrese los valores para las variables y asi mismo sustituirlas.
+Bucle do-while: Este bucle se ejecuta al menos una vez y luego verifica la condición en la parte inferior del bucle para determinar si debe continuar ejecutándose.
 
-Luego de ingresar y sustituir los valores de las variables, convertiremos la expresion para que haga los recorridos solicitados de la siguiente manera:
+Dentro del Case 1: 
+* El usuario puede ingresar una expresión matemática.
+* Se valida la expresión ingresada.
+* Se solicita al usuario que ingrese valores para las variables presentes en la expresión.
+* Se realiza la sustitución de las variables por sus valores correspondientes en la expresión.
+* Se convierte la expresión a notación postfija.
+* Se construye el árbol de expresión a partir de la expresión postfija.
+* Se muestra la expresión en orden inorden (I-R-D) recorriendo el árbol.
+* Se convierte la expresión a notación prefija (preorden).
 
 ```java
+case 1:
+                    entrada.nextLine();
+                    System.out.println("Ingrese una expresion:");
+                    expresion = entrada.nextLine();
+                    if (validar.validarExpresion(expresion) == false) {
+                        break;
+                    }
+                    validar.verificarVariables(expresion);
+                    expresionNueva = expresion;
+                    while (contador < validar.verificarVariables(expresion)) {
+                        System.out.println("Ingrese la letra de la variable al que desea asignar un valor: ");
+                        variable = entrada.nextLine();
+                        System.out.println("Debe ingresar un numero a la variable: " + variable);
+                        valor = entrada.nextLine();
+                        //aqui sustituimos los valores ya sean a b ...
+                        expresionNueva = validar.colocarVariables(expresionNueva, variable, valor);
+                        contador++;
+
 expresionPostfija = validar.conversionPostorden(expresionNueva);
  //asignamos la pila de postOrden a el arbool para coonstruirse
     ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);
@@ -208,15 +233,29 @@ expresionPostfija = validar.conversionPostorden(expresionNueva);
     validar.resultadoNotacionPolaca(expresionPolaca);
 ```
 
-Dentro del Case 2: Unicamente dará la opción de imprimir el árbol de manera gráfica. Cualquier otra opción no sera valida.
+Dentro del Case 2: Se llama a una función Pintar() que, presumiblemente, tiene la funcionalidad de representar gráficamente el árbol de expresión generado. Esto puede ser útil para visualizar la estructura del árbol.
 
 En public static void Pintar (Nodo Arbol) es responsable de visualizar un árbol de expresión de manera gráfica en una ventana. Toma como entrada el nodo raíz del árbol (Nodo Arbol) y crea una nueva ventana JFrame para mostrar el árbol. Luego, crea un objeto de la clase ArbolGrafico pasando el nodo raíz como parámetro para construir la representación gráfica del árbol. Finalmente, agrega este panel a la ventana y la hace visible para que el árbol de expresión sea mostrado al usuario.
+
+```java
+public static void Pintar(Nodo Arbol) {
+        JFrame frame = new JFrame("Árbol de Expresión");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400);
+
+        // Construye el árbol de expresión (aquí asumiendo que ya tienes el método construirArbolExpresion)
+        ArbolGrafico panel = new ArbolGrafico(Arbol);
+
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+```
 
 ### Arbol.java
 
 Esta clase Arbol se encarga de construir y manipular un árbol de expresión a partir de una expresión postfija. Contiene métodos para construir el árbol de expresión, recorrerlo en orden (inorden) y almacenar el nodo raíz del árbol. La clase también utiliza un objeto de la clase Validacion para validar expresiones y operadores.
 
-Se utiliza el metodo privado Nodo Construir Arbol Expresión para la construcción del arbol de la siguiente manera:
+private Nodo construirArbolExpresion(Stack<String> expresionPostfija): Este método toma una expresión en notación postfija (también conocida como notación polaca inversa) como entrada en forma de una pila de cadenas (expresionPostfija). Luego, construye y devuelve un árbol de expresión correspondiente a esa expresión postfija. El método recorre la expresión postfija y crea nodos para los operandos y operadores encontrados. Cuando encuentra un operador, crea un nuevo nodo con ese operador como valor y asigna los dos nodos superiores de la pila como sus hijos izquierdo y derecho. Finalmente, devuelve el nodo raíz del árbol de expresión construido.
 
 ```java
 private Nodo construirArbolExpresion(Stack<String> expresionPostfija) {
@@ -241,8 +280,19 @@ private Nodo construirArbolExpresion(Stack<String> expresionPostfija) {
         return pilaNodo.pop(); // Se retorna el nodo raíz del árbol de expresión
     }
 ```
+public void recorrerInorden(Nodo nodo): Este método realiza un recorrido inorden en el árbol binario cuyo nodo raíz se pasa como argumento (nodo). En un recorrido inorden, primero se visita el subárbol izquierdo, luego el nodo actual y finalmente el subárbol derecho. Este método imprime los valores de los nodos en orden inorden, lo que significa que los nodos se imprimirán en el orden correcto de la expresión matemática original si el árbol representa una expresión matemática.
 
-Ademas de incluir un metodo para hacer los recorridos en Inorden.
+```java
+public void recorrerInorden(Nodo nodo) {
+        if (nodo != null) {
+            if (nodo.getNodoIzquierda() != null) {
+                recorrerInorden(nodo.getNodoIzquierda());
+            }
+            System.out.print(nodo.getActual() + " ");
+            if (nodo.getNodoDerecha() != null) {
+                recorrerInorden(nodo.getNodoDerecha());
+            }
+```
 
 ### Validacion.java
 
@@ -253,6 +303,8 @@ public class Validacion {
 
     private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     //asigna valores a las variables ingresadas
+
+Esta función Java llamada colocarVariables toma una expresión, un caracter y un valor como parámetros y devuelve una nueva expresión donde todas las ocurrencias del caracter en la expresión original se sustituyen por el valor proporcionado.
 
     public String colocarVariables(String expresion, String caracter, String valor) {
         //instanciamos la expresion nueva que vamos a retornar
@@ -271,6 +323,9 @@ public class Validacion {
         System.out.println("expresion nueuva: " + expresionNueva);
         return expresionNueva;
     }
+
+Esta función llamada verificarVariables toma una expresión como parámetro y devuelve el número de variables presentes en esa expresión. La función utiliza una estrategia de contar todos los caracteres que no están en una lista predefinida de caracteres que no se consideran variables.
+
     //aqui se revisa las variables ingresadas
 
     //se encarga de validar las variables
@@ -303,6 +358,8 @@ public class Validacion {
         // ya luegoo en el while del menu va a iterar 2 vecces y nos pedira la letra de la variable y su valor para pasarlo a la otora funcion  
         return contador;
     }
+
+Esta función, llamada conversionPostorden, realiza la conversión de una expresión matemática en notación infija a notación postfija (también conocida como notación polaca inversa). La notación postfija es útil para evaluar expresiones matemáticas de manera eficiente utilizando una pila.    
     //conversion de inorden a postoorden
 
     //realiza la conversion de la expresion pero tambien retorna ya una pila de string para convertir a nodo en arbol
@@ -352,6 +409,8 @@ public class Validacion {
         System.out.println();
         return expresionPostfija;
     }
+
+La función conversionPreorden convierte una expresión matemática de notación infija a notación preorden (también conocida como notación polaca). Esta notación se caracteriza por tener los operadores antes de sus operandos.
 
     //realiza la conversion de inorden a preorden
     public Stack<String> conversionPreorden(String expresion) {
@@ -404,7 +463,7 @@ public class Validacion {
         return expresionPreOrden;
     }
     
-    
+La función resultadoNotacionPolaca calcula el resultado de una expresión matemática dada en notación polaca (postfija) utilizando una pila para llevar a cabo las operaciones.  
 
     //como estamos trabajando tanto con raices o division puede devolvernos valores double
     public void resultadoNotacionPolaca(Stack<String> expresionPila) {
@@ -428,6 +487,9 @@ public class Validacion {
         }
         System.out.println("El resultado de evaluar la Notacion Polaca es: " + pilaOperadoresOperandos.pop());
     }
+
+La función realizarOperacion toma un operador, un operando derecho y un operando izquierdo, y realiza la operación matemática correspondiente según el operador proporcionado. Este método se utiliza en el contexto de la evaluación de expresiones en notación polaca.
+
 // aqui evaluamos los operadores  y retornamos el resultadoo
 
     private double realizarOperacion(String operador, double operandoDerecha, double operandoIzquierda) {
@@ -455,6 +517,8 @@ public class Validacion {
         return 0.0;
     }
 
+La función esOperador determina si un carácter dado es un operador matemático válido. Toma una cadena que representa un carácter como entrada y devuelve true si ese carácter es un operador (+, -, *, /, ^, o √), y false en caso contrario.
+
     //evalua el caracter que te pase si coincide devuelve true
     public boolean esOperador(String caracter) {
         switch (caracter) {
@@ -469,6 +533,8 @@ public class Validacion {
                 return false;
         }
     }
+
+La función validarExpresion verifica si una expresión dada contiene únicamente caracteres permitidos. Devuelve true si todos los caracteres de la expresión están permitidos y false si se encuentra al menos un caracter no permitido.
 
     public boolean validarExpresion(String expresion) {
         //recorrer el arbol
@@ -496,4 +562,4 @@ public class Validacion {
 }
 ```
 
-
+Se adjunta video de prueba del funcionamiento del codigo.
