@@ -18,9 +18,7 @@ import java.awt.*;
 
 public class ArbolGrafico extends JPanel {
 
-    private static final int DIAMETRO = 30;
-    private static final int RADIO = DIAMETRO / 2;
-    private static final int ANCHO = 50;
+ 
 
     private final Nodo arbol;
 
@@ -53,15 +51,15 @@ public class ArbolGrafico extends JPanel {
 
         if (nodo.getNodoIzquierda() != null) {
             //aqui dibuja la linea
-            g.drawLine(x + RADIO, y + RADIO, x - ANCHO - Ajuste + RADIO, y + ANCHO + RADIO);
+            g.drawLine(x + 15, y + 15, x - 50 - Ajuste + 15, y + 50 + 15);
             g.setColor(Color.GREEN);
-            pintar(g, x - ANCHO - Ajuste, y + ANCHO, nodo.getNodoIzquierda());
+            pintar(g, x - 50 - Ajuste, y + 50, nodo.getNodoIzquierda());
         }
         if (nodo.getNodoDerecha() != null) {
             //aqui dibuja la linea
-            g.drawLine(x + RADIO, y + RADIO, x + ANCHO + Ajuste + RADIO, y + ANCHO + RADIO);
+            g.drawLine(x + 15, y + 15, x + 50 + Ajuste + 15, y + 50 + 15);
             g.setColor(Color.GREEN);
-            pintar(g, x + ANCHO + Ajuste, y + ANCHO, nodo.getNodoDerecha());
+            pintar(g, x + 50 + Ajuste, y + 50, nodo.getNodoDerecha());
         }
     }
 
