@@ -563,3 +563,5 @@ La función validarExpresion verifica si una expresión dada contiene únicament
 ```
 
 Se adjunta video de prueba del funcionamiento del codigo.
+
+https://github.com/egvalle/ArbolExpresiones/assets/104967229/2170cf20-e91f-4731-a001-b9ca83c329b0
