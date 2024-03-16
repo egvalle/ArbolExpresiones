@@ -90,11 +90,15 @@ public class Proyecto {
     //pruebas //(12+3)-(5-3)+3
 
     public static void Pintar(Nodo Arbol) {
+        //noombre de la ventana
         JFrame frame = new JFrame("Árbol de Expresión");
+
+        //una vez halla trerminadoo la ejecuciion termina el programa
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //establece una dimension de la pantalla
         frame.setSize(600, 400);
 
-        // Construye el árbol de expresión (aquí asumiendo que ya tienes el método construirArbolExpresion)
+        // crea una instancia del arbol grafico y hazlo a partir de coonstruuir arbol
         ArbolGrafico panel = new ArbolGrafico(Arbol);
 
         frame.add(panel);
