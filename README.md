@@ -1,7 +1,7 @@
 # Proyecto 1, Programación 3
 **Integrantes:**
 
-Victor Alfredo Macario Enriquez
+Victor Alfredo Macario Enriquez 7690-22-5042
 
 Edwin Geovany Valle Benito
 
