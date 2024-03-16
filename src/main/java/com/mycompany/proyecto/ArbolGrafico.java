@@ -38,14 +38,15 @@ public class ArbolGrafico extends JPanel {
 
     private void pintar(Graphics g, int x, int y, Nodo nodo) {
         if (nodo == null) {
-            return; // Condición de salida para detener la recursión
+            return; 
+         //Si ya no hay nodos termina
         }
         // Cálculo del espacio extra para los nodos completos
-        int Ajuste = nodosConAmbosHijos(nodo) * (ANCHO / 2);
+        int Ajuste = nodosConAmbosHijos(nodo) * 25;
 //aqui dibuja el circulo que encierra los operandos y ooperadores
         g.drawOval(x + 3, y - 5, 40, 40);
         //darle color a las lineas
-        g.setColor(new Color(139, 69, 19)); // Café
+        g.setColor(new Color(139, 69, 19)); // Color cafe en rgb
         // Dibujando el contenido del nodo
         g.drawString(nodo.getActual(), x + 12, y + 18);
 
