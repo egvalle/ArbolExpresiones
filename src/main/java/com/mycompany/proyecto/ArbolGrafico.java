@@ -18,9 +18,7 @@ import java.awt.*;
 
 public class ArbolGrafico extends JPanel {
 
-    private static final int DIAMETRO = 30;
-    private static final int RADIO = DIAMETRO / 2;
-    private static final int ANCHO = 50;
+ 
 
     private final Nodo arbol;
 
@@ -40,28 +38,29 @@ public class ArbolGrafico extends JPanel {
 
     private void pintar(Graphics g, int x, int y, Nodo nodo) {
         if (nodo == null) {
-            return; // Condición de salida para detener la recursión
+            return; 
+         //Si ya no hay nodos termina
         }
         // Cálculo del espacio extra para los nodos completos
-        int Ajuste = nodosConAmbosHijos(nodo) * (ANCHO / 2);
+        int Ajuste = nodosConAmbosHijos(nodo) * 25;
 //aqui dibuja el circulo que encierra los operandos y ooperadores
         g.drawOval(x + 3, y - 5, 40, 40);
         //darle color a las lineas
-        g.setColor(new Color(139, 69, 19)); // Café
+        g.setColor(new Color(139, 69, 19)); // Color cafe en rgb
         // Dibujando el contenido del nodo
         g.drawString(nodo.getActual(), x + 12, y + 18);
 
         if (nodo.getNodoIzquierda() != null) {
             //aqui dibuja la linea
-            g.drawLine(x + RADIO, y + RADIO, x - ANCHO - Ajuste + RADIO, y + ANCHO + RADIO);
+            g.drawLine(x + 15, y + 15, x - 50 - Ajuste + 15, y + 50 + 15);
             g.setColor(Color.GREEN);
-            pintar(g, x - ANCHO - Ajuste, y + ANCHO, nodo.getNodoIzquierda());
+            pintar(g, x - 50 - Ajuste, y + 50, nodo.getNodoIzquierda());
         }
         if (nodo.getNodoDerecha() != null) {
             //aqui dibuja la linea
-            g.drawLine(x + RADIO, y + RADIO, x + ANCHO + Ajuste + RADIO, y + ANCHO + RADIO);
+            g.drawLine(x + 15, y + 15, x + 50 + Ajuste + 15, y + 50 + 15);
             g.setColor(Color.GREEN);
-            pintar(g, x + ANCHO + Ajuste, y + ANCHO, nodo.getNodoDerecha());
+            pintar(g, x + 50 + Ajuste, y + 50, nodo.getNodoDerecha());
         }
     }
 
