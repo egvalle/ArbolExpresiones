@@ -1,0 +1,1399 @@
+[1mdiff --git a/ArbolExpresiones b/ArbolExpresiones[m
+[1mdeleted file mode 160000[m
+[1mindex 9331457..0000000[m
+[1m--- a/ArbolExpresiones[m
+[1m+++ /dev/null[m
+[36m@@ -1 +0,0 @@[m
+[31m-Subproject commit 933145738ba3285f90314b95d541178c8e9193de[m
+[1mdiff --git a/Info.Md.txt b/Info.Md.txt[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
+[1mdiff --git a/README.md b/README.md[m
+[1mdeleted file mode 100644[m
+[1mindex b89d380..0000000[m
+[1m--- a/README.md[m
+[1m+++ /dev/null[m
+[36m@@ -1 +0,0 @@[m
+[31m-Readme[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/Arbol.java b/src/main/java/com/mycompany/proyecto/Arbol.java[m
+[1mindex ead23cd..c5448d5 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/Arbol.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/Arbol.java[m
+[36m@@ -1,83 +1,62 @@[m
+[31m-package com.mycompany.proyecto;[m
+[31m-[m
+[31m-import java.util.ArrayList;[m
+[31m-import java.util.List;[m
+[31m-import java.util.Stack;[m
+[31m-[m
+[31m-public class Arbol {[m
+[31m-[m
+[31m-    /*[m
+[31m-    private char[] jerarquia5 = {'(', ')'};[m
+[31m-    private char[] jerarquia4 = {'√', '^'};[m
+[31m-    private char[] jerarquia3 = {'*', '/'};[m
+[31m-    private char[] jerarquia2 = {'+', '-'};[m
+[31m-    private char[] jerarquia1 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[31m-     */[m
+[31m-    public Nodo Arbol = new Nodo();[m
+[31m-    Validacion validar = new Validacion();[m
+[31m-[m
+[31m-    //alt scroll cambiar zoom[m
+[31m-    //a+b-(c-d)+e[m
+[31m-    //e+(d-c)-b+a[m
+[31m-    //a+b-c[m
+[31m-    //(c-b)+a[m
+[31m-    //ver de inffija a postfija consejo del inge[m
+[31m-    public Nodo ArbolExpresion(Stack<String> expresionPostFija) {[m
+[31m-        Arbol = construirArbolExpresion(expresionPostFija);[m
+[31m-        //System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());[m
+[31m-        return Arbol;[m
+[31m-    }[m
+[31m-[m
+[31m-    private Nodo construirArbolExpresion(Stack<String> expresionPostfija) {[m
+[31m-        //la pila debe contener caracteres[m
+[31m-        Stack<String> pilaPostfija = expresionPostfija;[m
+[31m-        Stack<Nodo> pilaNodo = new Stack<>();[m
+[31m-//En el casoo de que se recorra de Izquierda a derecha queda de la siguiente manera        [m
+[31m-//a+b -> b+a[m
+[31m-        for (String dato : pilaPostfija) {[m
+[31m-            //el primer valor deberia ser la raiz osea un operador[m
+[31m-            if (!validar.esOperador(dato)) {[m
+[31m-                //ccrea un nodo del operando[m
+[31m-                pilaNodo.add(new Nodo(dato));[m
+[31m-                // los siguiente operandos[m
+[31m-            } else if (validar.esOperador(dato)) {[m
+[31m-                Nodo raiz = new Nodo(dato);[m
+[31m-                Nodo hijoDerecho = pilaNodo.pop();[m
+[31m-                Nodo hijoIzquierdo = pilaNodo.pop();[m
+[31m-                raiz.setNodoDerecha(hijoDerecho);[m
+[31m-                raiz.setNodoIzquierda(hijoIzquierdo);[m
+[31m-                pilaNodo.add(raiz);[m
+[31m-            }[m
+[31m-        }[m
+[31m-        return pilaNodo.pop();[m
+[31m-    }[m
+[31m-[m
+[31m-    public void recorrerInorden(Nodo nodo) {[m
+[31m-        if (nodo != null) {[m
+[31m-            if (nodo.getNodoIzquierda() != null) {[m
+[31m-                recorrerInorden(nodo.getNodoIzquierda());[m
+[31m-            }[m
+[31m-            System.out.print(nodo.getActual() + " ");[m
+[31m-            if (nodo.getNodoDerecha() != null) {[m
+[31m-                recorrerInorden(nodo.getNodoDerecha());[m
+[31m-            }[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-}[m
+[31m-[m
+[31m-/*[m
+[31m-    public void mostrarArbol(Nodo nodo) {[m
+[31m-        if (nodo != null) {[m
+[31m-            System.out.println(" " + nodo.getActual() + " ");[m
+[31m-            if (nodo.getNodoIzquierda() != null) {[m
+[31m-                System.out.println("Subárbol izquierdo [<-]:");[m
+[31m-                mostrarArbol(nodo.getNodoIzquierda());[m
+[31m-            }[m
+[31m-            if (nodo.getNodoDerecha() != null) {[m
+[31m-                System.out.println("Subárbol derecho [->]:");[m
+[31m-                mostrarArbol(nodo.getNodoDerecha());[m
+[31m-            }[m
+[31m-        }[m
+[31m-    }[m
+[31m- */[m
+[32m+[m[32mpackage com.mycompany.proyecto;[m
+[32m+[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Stack;[m
+[32m+[m
+[32m+[m[32mpublic class Arbol {[m
+[32m+[m
+[32m+[m[32m    /*[m
+[32m+[m[32m    private char[] jerarquia5 = {'(', ')'};[m
+[32m+[m[32m    private char[] jerarquia4 = {'√', '^'};[m
+[32m+[m[32m    private char[] jerarquia3 = {'*', '/'};[m
+[32m+[m[32m    private char[] jerarquia2 = {'+', '-'};[m
+[32m+[m[32m    private char[] jerarquia1 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[32m+[m[32m     */[m
+[32m+[m[32m    public Nodo Arbol = new Nodo();[m
+[32m+[m[32m    Validacion validar = new Validacion();[m
+[32m+[m
+[32m+[m[32m    //alt scroll cambiar zoom[m
+[32m+[m[32m    //a+b-(c-d)+e[m
+[32m+[m[32m    //e+(d-c)-b+a[m
+[32m+[m[32m    //a+b-c[m
+[32m+[m[32m    //(c-b)+a[m
+[32m+[m[32m    //ver de inffija a postfija consejo del inge[m
+[32m+[m[32m    public Nodo ArbolExpresion(Stack<String> expresionPostFija) {[m
+[32m+[m[32m        Arbol = construirArbolExpresion(expresionPostFija);[m
+[32m+[m[32m        System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());[m
+[32m+[m[32m        return Arbol;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    private Nodo construirArbolExpresion(Stack<String> expresionPostFija) {[m
+[32m+[m[32m        Stack<Nodo> pilaNodo = new Stack<>();[m
+[32m+[m[32m        Stack<String> pilaNodoTemporal = new Stack<>(); // Pila temporal para almacenar los nodos dentro del paréntesis[m
+[32m+[m
+[32m+[m[32m        for (String dato : expresionPostFija) {[m
+[32m+[m[32m            if (dato.equals("+") || dato.equals("-") || dato.equals("*") || dato.equals("/")) {[m
+[32m+[m[32m                Nodo raiz = new Nodo(dato);[m
+[32m+[m[32m                raiz.setNodoDerecha(pilaNodo.pop());[m
+[32m+[m[32m                raiz.setNodoIzquierda(pilaNodo.pop());[m
+[32m+[m[32m                pilaNodo.push(raiz);[m
+[32m+[m[32m            } else if (dato.equals("(")) {[m
+[32m+[m[32m                // Se encontró un paréntesis abierto, se inicia una nueva pila para los nodos dentro del paréntesis[m
+[32m+[m[32m                pilaNodoTemporal.clear();[m
+[32m+[m[32m                // Se sigue extrayendo elementos hasta encontrar el paréntesis de cierre[m
+[32m+[m[32m                while (!pilaNodo.peek().getActual().equals(")")) {[m
+[32m+[m[32m                    pilaNodoTemporal.push(pilaNodo.pop().getActual());[m
+[32m+[m[32m                }[m
+[32m+[m[32m                // Se quita el paréntesis de cierre de la pila principal[m
+[32m+[m[32m                pilaNodo.pop();[m
+[32m+[m[32m                // Se construye el árbol de expresiones dentro del paréntesis[m
+[32m+[m[32m                Nodo subArbol = construirArbolExpresion(pilaNodoTemporal);[m
+[32m+[m[32m                // Se agrega el subárbol a la pila principal[m
+[32m+[m[32m                pilaNodo.push(subArbol);[m
+[32m+[m[32m            } else {[m
+[32m+[m[32m                pilaNodo.push(new Nodo(dato));[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return pilaNodo.pop();[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m}[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/ArbolGrafico.java b/src/main/java/com/mycompany/proyecto/ArbolGrafico.java[m
+[1mindex 1081d62..68d80b1 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/ArbolGrafico.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/ArbolGrafico.java[m
+[36m@@ -1,84 +1,84 @@[m
+[31m-/*[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[31m- */[m
+[31m-package com.mycompany.proyecto;[m
+[31m-[m
+[31m-//primmer commit[m
+[31m-//probandoo commits[m
+[31m-/**[m
+[31m- *[m
+[31m- * @author victo[m
+[31m- */[m
+[31m-import javax.swing.*;[m
+[31m-import java.awt.*;[m
+[31m-[m
+[31m-import javax.swing.*;[m
+[31m-import java.awt.*;[m
+[31m-[m
+[31m-public class ArbolGrafico extends JPanel {[m
+[31m-[m
+[31m-    private static final int DIAMETRO = 30;[m
+[31m-    private static final int RADIO = DIAMETRO / 2;[m
+[31m-    private static final int ANCHO = 50;[m
+[31m-[m
+[31m-    private final Nodo arbol;[m
+[31m-[m
+[31m-    public ArbolGrafico(Nodo arbol) {[m
+[31m-        this.arbol = arbol;[m
+[31m-        //cambiando el coolor del foondo[m
+[31m-        setBackground(Color.WHITE);[m
+[31m-    }[m
+[31m-[m
+[31m-    @Override[m
+[31m-    protected void paintComponent(Graphics g) {[m
+[31m-        super.paintComponent(g);[m
+[31m-        //cambiando el color del coontenido de los nodos[m
+[31m-        g.setColor(Color.RED);[m
+[31m-        pintar(g, getWidth() / 2, 20, arbol);[m
+[31m-    }[m
+[31m-[m
+[31m-    private void pintar(Graphics g, int x, int y, Nodo nodo) {[m
+[31m-        if (nodo == null) {[m
+[31m-            return; // Condición de salida para detener la recursión[m
+[31m-        }[m
+[31m-        // Cálculo del espacio extra para los nodos completos[m
+[31m-        int Ajuste = nodosConAmbosHijos(nodo) * (ANCHO / 2);[m
+[31m-//aqui dibuja el circulo que encierra los operandos y ooperadores[m
+[31m-        g.drawOval(x + 3, y - 5, 40, 40);[m
+[31m-        //darle color a las lineas[m
+[31m-        g.setColor(new Color(139, 69, 19)); // Café[m
+[31m-        // Dibujando el contenido del nodo[m
+[31m-        g.drawString(nodo.getActual(), x + 12, y + 18);[m
+[31m-[m
+[31m-        if (nodo.getNodoIzquierda() != null) {[m
+[31m-            //aqui dibuja la linea[m
+[31m-            g.drawLine(x + RADIO, y + RADIO, x - ANCHO - Ajuste + RADIO, y + ANCHO + RADIO);[m
+[31m-            g.setColor(Color.GREEN);[m
+[31m-            pintar(g, x - ANCHO - Ajuste, y + ANCHO, nodo.getNodoIzquierda());[m
+[31m-        }[m
+[31m-        if (nodo.getNodoDerecha() != null) {[m
+[31m-            //aqui dibuja la linea[m
+[31m-            g.drawLine(x + RADIO, y + RADIO, x + ANCHO + Ajuste + RADIO, y + ANCHO + RADIO);[m
+[31m-            g.setColor(Color.GREEN);[m
+[31m-            pintar(g, x + ANCHO + Ajuste, y + ANCHO, nodo.getNodoDerecha());[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-    public int nodosConAmbosHijos(Nodo nodo) {[m
+[31m-        //si el nodo es nulo no retornes nada[m
+[31m-        if (nodo == null) {[m
+[31m-            return 0;[m
+[31m-        } else {[m
+[31m-            //si no instancia un contador para  ver cuantos nodos si tienen ambas hojas[m
+[31m-            int contador = 0;[m
+[31m-            //si tiene ambas incrementa 1[m
+[31m-            if (nodo.getNodoIzquierda() != null && nodo.getNodoDerecha() != null) {[m
+[31m-                contador = 1;[m
+[31m-            }[m
+[31m-            //[m
+[31m-            contador += nodosConAmbosHijos(nodo.getNodoIzquierda()) + nodosConAmbosHijos(nodo.getNodoDerecha());[m
+[31m-            return contador;[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[32m+[m[32m/*[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[32m+[m[32m */[m
+[32m+[m[32mpackage com.mycompany.proyecto;[m
+[32m+[m
+[32m+[m[32m//primmer commit[m
+[32m+[m[32m//probandoo commits[m
+[32m+[m[32m/**[m
+[32m+[m[32m *[m
+[32m+[m[32m * @author victo[m
+[32m+[m[32m */[m
+[32m+[m[32mimport javax.swing.*;[m
+[32m+[m[32mimport java.awt.*;[m
+[32m+[m
+[32m+[m[32mimport javax.swing.*;[m
+[32m+[m[32mimport java.awt.*;[m
+[32m+[m
+[32m+[m[32mpublic class ArbolGrafico extends JPanel {[m
+[32m+[m
+[32m+[m[32m    private static final int DIAMETRO = 30;[m
+[32m+[m[32m    private static final int RADIO = DIAMETRO / 2;[m
+[32m+[m[32m    private static final int ANCHO = 50;[m
+[32m+[m
+[32m+[m[32m    private final Nodo arbol;[m
+[32m+[m
+[32m+[m[32m    public ArbolGrafico(Nodo arbol) {[m
+[32m+[m[32m        this.arbol = arbol;[m
+[32m+[m[32m        //cambiando el coolor del foondo[m
+[32m+[m[32m        setBackground(Color.WHITE);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    protected void paintComponent(Graphics g) {[m
+[32m+[m[32m        super.paintComponent(g);[m
+[32m+[m[32m        //cambiando el color del coontenido de los nodos[m
+[32m+[m[32m        g.setColor(Color.RED);[m
+[32m+[m[32m        pintar(g, getWidth() / 2, 20, arbol);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private void pintar(Graphics g, int x, int y, Nodo nodo) {[m
+[32m+[m[32m        if (nodo == null) {[m
+[32m+[m[32m            return; // Condición de salida para detener la recursión[m
+[32m+[m[32m        }[m
+[32m+[m[32m        // Cálculo del espacio extra para los nodos completos[m
+[32m+[m[32m        int Ajuste = nodosConAmbosHijos(nodo) * (ANCHO / 2);[m
+[32m+[m[32m//aqui dibuja el circulo que encierra los operandos y ooperadores[m
+[32m+[m[32m        g.drawOval(x + 3, y - 5, 40, 40);[m
+[32m+[m[32m        //darle color a las lineas[m
+[32m+[m[32m        g.setColor(new Color(139, 69, 19)); // Café[m
+[32m+[m[32m        // Dibujando el contenido del nodo[m
+[32m+[m[32m        g.drawString(nodo.getActual(), x + 12, y + 18);[m
+[32m+[m
+[32m+[m[32m        if (nodo.getNodoIzquierda() != null) {[m
+[32m+[m[32m            //aqui dibuja la linea[m
+[32m+[m[32m            g.drawLine(x + RADIO, y + RADIO, x - ANCHO - Ajuste + RADIO, y + ANCHO + RADIO);[m
+[32m+[m[32m            g.setColor(Color.GREEN);[m
+[32m+[m[32m            pintar(g, x - ANCHO - Ajuste, y + ANCHO, nodo.getNodoIzquierda());[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (nodo.getNodoDerecha() != null) {[m
+[32m+[m[32m            //aqui dibuja la linea[m
+[32m+[m[32m            g.drawLine(x + RADIO, y + RADIO, x + ANCHO + Ajuste + RADIO, y + ANCHO + RADIO);[m
+[32m+[m[32m            g.setColor(Color.GREEN);[m
+[32m+[m[32m            pintar(g, x + ANCHO + Ajuste, y + ANCHO, nodo.getNodoDerecha());[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public int nodosConAmbosHijos(Nodo nodo) {[m
+[32m+[m[32m        //si el nodo es nulo no retornes nada[m
+[32m+[m[32m        if (nodo == null) {[m
+[32m+[m[32m            return 0;[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            //si no instancia un contador para  ver cuantos nodos si tienen ambas hojas[m
+[32m+[m[32m            int contador = 0;[m
+[32m+[m[32m            //si tiene ambas incrementa 1[m
+[32m+[m[32m            if (nodo.getNodoIzquierda() != null && nodo.getNodoDerecha() != null) {[m
+[32m+[m[32m                contador = 1;[m
+[32m+[m[32m            }[m
+[32m+[m[32m            //[m
+[32m+[m[32m            contador += nodosConAmbosHijos(nodo.getNodoIzquierda()) + nodosConAmbosHijos(nodo.getNodoDerecha());[m
+[32m+[m[32m            return contador;[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/Nodo.java b/src/main/java/com/mycompany/proyecto/Nodo.java[m
+[1mindex 754f3ba..a489502 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/Nodo.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/Nodo.java[m
+[36m@@ -1,51 +1,51 @@[m
+[31m-/*[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[31m- */[m
+[31m-package com.mycompany.proyecto;[m
+[31m-[m
+[31m-/**[m
+[31m- *[m
+[31m- * @author victo[m
+[31m- */[m
+[31m-public class Nodo {[m
+[31m-[m
+[31m-    private String actual;[m
+[31m-    private Nodo nodoIzquierda;[m
+[31m-    private Nodo nodoDerecha;[m
+[31m-[m
+[31m-    public Nodo(String actual){[m
+[31m-        this.actual = actual;[m
+[31m-        this.nodoIzquierda = null;[m
+[31m-        this.nodoDerecha = null;[m
+[31m-    }[m
+[31m-    //constructor vacio para poder instanciar un nodo vacio en base a lo del libro [m
+[31m-    public Nodo(){[m
+[31m-        [m
+[31m-    }[m
+[31m-[m
+[31m-    public String getActual() {[m
+[31m-        return actual;[m
+[31m-    }[m
+[31m-[m
+[31m-    public Nodo getNodoIzquierda() {[m
+[31m-        return nodoIzquierda;[m
+[31m-    }[m
+[31m-[m
+[31m-    public Nodo getNodoDerecha() {[m
+[31m-        return nodoDerecha;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setActual(String actual) {[m
+[31m-        this.actual = actual;[m
+[31m-    }[m
+[31m-    [m
+[31m-    public void setNodoIzquierda(Nodo nodoIzquierda) {[m
+[31m-        this.nodoIzquierda = nodoIzquierda;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void setNodoDerecha(Nodo nodoDerecha) {[m
+[31m-        this.nodoDerecha = nodoDerecha;[m
+[31m-    }[m
+[31m-    [m
+[31m-}[m
+[32m+[m[32m/*[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[32m+[m[32m */[m
+[32m+[m[32mpackage com.mycompany.proyecto;[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m *[m
+[32m+[m[32m * @author victo[m
+[32m+[m[32m */[m
+[32m+[m[32mpublic class Nodo {[m
+[32m+[m
+[32m+[m[32m    private String actual;[m
+[32m+[m[32m    private Nodo nodoIzquierda;[m
+[32m+[m[32m    private Nodo nodoDerecha;[m
+[32m+[m
+[32m+[m[32m    public Nodo(String actual){[m
+[32m+[m[32m        this.actual = actual;[m
+[32m+[m[32m        this.nodoIzquierda = null;[m
+[32m+[m[32m        this.nodoDerecha = null;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    //constructor vacio para poder instanciar un nodo vacio en base a lo del libro[m[41m [m
+[32m+[m[32m    public Nodo(){[m
+[32m+[m[41m        [m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public String getActual() {[m
+[32m+[m[32m        return actual;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public Nodo getNodoIzquierda() {[m
+[32m+[m[32m        return nodoIzquierda;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public Nodo getNodoDerecha() {[m
+[32m+[m[32m        return nodoDerecha;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void setActual(String actual) {[m
+[32m+[m[32m        this.actual = actual;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    public void setNodoIzquierda(Nodo nodoIzquierda) {[m
+[32m+[m[32m        this.nodoIzquierda = nodoIzquierda;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void setNodoDerecha(Nodo nodoDerecha) {[m
+[32m+[m[32m        this.nodoDerecha = nodoDerecha;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m}[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/Proyecto.java b/src/main/java/com/mycompany/proyecto/Proyecto.java[m
+[1mindex f8ebed1..fff3cf6 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/Proyecto.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/Proyecto.java[m
+[36m@@ -43,11 +43,10 @@[m [mpublic class Proyecto {[m
+             System.out.println("Seleccione una opcion: ");[m
+             System.out.println("[1]\t Ingresar expresion");[m
+             System.out.println("[2]\t Generar arbol");[m
+[31m-            System.out.println("[3]\t Salir");[m
+             opcion = entrada.nextInt();[m
+             switch (opcion) {[m
+                 case 1:[m
+[31m-                    entrada.nextLine();[m
+[32m+[m[32m                    entrada.nextLine();[m[41m [m
+                     System.out.println("Ingrese una expresion:");[m
+                     expresion = entrada.nextLine();[m
+                     if (validar.validarExpresion(expresion) == false) {[m
+[36m@@ -68,18 +67,16 @@[m [mpublic class Proyecto {[m
+                     //inordenIRD[m
+                     //postorden IDR[m
+                     expresionPostfija = validar.conversionPostorden(expresionNueva);[m
+[31m-                    //asignamos la pila de postOrden a el arbool para coonstruirse[m
+[31m-                    ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);[m
+[31m-                    //ya con el arbol construido podemos recorrerlo[m
+                     System.out.println("Expresion InOrden   [I-R-D]");[m
+[31m-                    arbol.recorrerInorden(ArbolExpresion);[m
+[31m-                    System.out.println();[m
+[32m+[m[32m                    System.out.println(expresionNueva);[m
+                     //retornamos una pila al reves de validacion[m
+                     expresionPolaca = validar.conversionPreorden(expresionNueva);[m
+                     //aqui tengo que pasarle la pila a funcion para evaluar [recordar][m
+                     validar.resultadoNotacionPolaca(expresionPolaca);[m
+                     break;[m
+                 case 2:[m
+[32m+[m[32m                    ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);[m
+[32m+[m[32m                    // arbol.mostrarArbol(ArbolExpresion);[m
+                     Pintar(ArbolExpresion);[m
+                     break;[m
+             }[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/Validacion.java b/src/main/java/com/mycompany/proyecto/Validacion.java[m
+[1mindex 17be764..fc29be2 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/Validacion.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/Validacion.java[m
+[36m@@ -1,259 +1,256 @@[m
+[31m-/*[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[31m- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[31m- */[m
+[31m-package com.mycompany.proyecto;[m
+[31m-[m
+[31m-import java.util.ArrayList;[m
+[31m-import java.util.List;[m
+[31m-import java.util.Stack;[m
+[31m-[m
+[31m-/**[m
+[31m- *[m
+[31m- * @author victo[m
+[31m- */[m
+[31m-public class Validacion {[m
+[31m-[m
+[31m-    private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[31m-    //asigna valores a las variables ingresadas[m
+[31m-[m
+[31m-    public String colocarVariables(String expresion, String caracter, String valor) {[m
+[31m-        //instanciamos la expresion nueva que vamos a retornar[m
+[31m-        String expresionNueva = "";[m
+[31m-        //recorremos[m
+[31m-        for (int i = 0; i < expresion.length(); i++) {[m
+[31m-            //si el caracter coincide coon la variable[m
+[31m-            if (expresion.charAt(i) == caracter.charAt(0)) {[m
+[31m-                //el valor que le pasamos lo sustituimoos[m
+[31m-                expresionNueva += valor;[m
+[31m-            } else {[m
+[31m-                //si no coincide seguimoos armando la expresion[m
+[31m-                expresionNueva += expresion.charAt(i);[m
+[31m-            }[m
+[31m-        }[m
+[31m-        System.out.println("expresion nueuva: " + expresionNueva);[m
+[31m-        return expresionNueva;[m
+[31m-    }[m
+[31m-    //aqui revisa las variables ingresadas[m
+[31m-[m
+[31m-    //se encarga de validar las vas variables[m
+[31m-    public int verificarVariables(String expresion) {[m
+[31m-        //verificamos que lo que le estamos pasando sean variables en la expresion en casoo las halla[m
+[31m-        int contador = 0;[m
+[31m-        //colocamos los numeros por que tambien vamos a podoer pasarle numeros ya en la expresion[m
+[31m-        char[] noVariables = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};[m
+[31m-        //recorremoos[m
+[31m-        for (int i = 0; i < expresion.length(); i++) {[m
+[31m-            //guardamos el caracter en una variable de tipo char[m
+[31m-            char caracter = expresion.charAt(i);[m
+[31m-            //creamos una flag que nos diggag si es variable oo noo[m
+[31m-            boolean esVariable = true;[m
+[31m-            //si el caracter esta en los no permitidos entonces vas a retornar falso y saldras del bucle por que ya encontraste algo[m
+[31m-            for (char noVariable : noVariables) {[m
+[31m-                if (caracter == noVariable) {[m
+[31m-                    esVariable = false;[m
+[31m-                    break;[m
+[31m-                }[m
+[31m-            }[m
+[31m-            //si es variable osea no esta en no variables[m
+[31m-            if (esVariable) {[m
+[31m-                //anadie al contador[m
+[31m-                contador++;[m
+[31m-            }[m
+[31m-        }[m
+[31m-        //el contador noos va a servir para pedir tantas veces el numero de datos a ingresar[m
+[31m-        //Por ejemplo: a+b -> seria 2 variables osea 2 [m
+[31m-        // ya luegoo en el while del menu va a iterar 2 vecces y nos pedira la letra de la variable y su valor para pasarlo a la otora funcion  [m
+[31m-        return contador;[m
+[31m-    }[m
+[31m-    //conversion de inorden a postoorden[m
+[31m-[m
+[31m-    //realiza la conversion de la expresion pero tambien retorna ya una pila de string para convertir a nodo en arbol[m
+[31m-    public Stack<String> conversionPostorden(String expresion) {[m
+[31m-        //la primerma condicion es recorrer de izquierda a derecha la expresion[m
+[31m-        Stack<String> expresionPostfija = new Stack<>();[m
+[31m-        Stack<String> operadores = new Stack<>();[m
+[31m-        String numero = "";[m
+[31m-[m
+[31m-//        int contadorPrueba = 0;[m
+[31m-        for (int i = 0; i < expresion.length(); i++) {[m
+[31m-[m
+[31m-//si es un numero[m
+[31m-            if (Character.isDigit(expresion.charAt(i))) {[m
+[31m-                //concatenar la cadena de numeros[m
+[31m-                numero += expresion.charAt(i);[m
+[31m-                //si no es un digito corta y mandalo a la pila[m
+[31m-                // Si estamos en el último carácter de la expresión o el carácter siguiente no es un dígito,[m
+[31m-// significa que el número actual ha terminado y debe agregarse a la pila expresionPostfija.[m
+[31m-                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {[m
+[31m-//aniade al rsultado el numero [m
+[31m-                    expresionPostfija.add(numero);[m
+[31m-                    numero = "";[m
+[31m-                }[m
+[31m-                //si es un operador o abre un parentesis manda la expresion a la pila de operadores[m
+[31m-            } else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == '(') {[m
+[31m-                operadores.add(String.valueOf(expresion.charAt(i)));[m
+[31m-                //si encuentras el cierre entonces[m
+[31m-            } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre[m
+[31m-                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de apertura[m
+[31m-                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {[m
+[31m-                    expresionPostfija.add(operadores.pop());[m
+[31m-                }[m
+[31m-                //cuando encuentres el parentesis de apertura sacalo[m
+[31m-                operadores.pop();[m
+[31m-            }[m
+[31m-        }[m
+[31m-        //por ultimo supongamos el caso (a+b)-(c-d)[m
+[31m-        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz[m
+[31m-        while (!operadores.isEmpty()) {[m
+[31m-            expresionPostfija.add(operadores.pop());[m
+[31m-        }[m
+[31m-        System.out.println("Expresion PostOrden [I-D-R]");[m
+[31m-        for (String expresiones : expresionPostfija) {[m
+[31m-            System.out.print(expresiones + " ");[m
+[31m-        }[m
+[31m-        System.out.println();[m
+[31m-        return expresionPostfija;[m
+[31m-    }[m
+[31m-[m
+[31m-    //realiza la conversion de inorden a preorden[m
+[31m-    public Stack<String> conversionPreorden(String expresion) {[m
+[31m-        //la primerma condicion es recorrer de derecha a izquierda la expresion[m
+[31m-        Stack<String> expresionPreOrden = new Stack<>();[m
+[31m-        Stack<String> operadores = new Stack<>();[m
+[31m-        String numero = "";[m
+[31m-[m
+[31m-//        int contadorPrueba = 0;[m
+[31m-        for (int i = expresion.length() - 1; i >= 0; i--) {[m
+[31m-[m
+[31m-            //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores[m
+[31m-            if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {[m
+[31m-                operadores.add(String.valueOf(expresion.charAt(i)));[m
+[31m-                //si encuentras el parentesis que abre entonces limpia la pila de operadores hasta el parentesis de cierre[m
+[31m-            } else if (expresion.charAt(i) == '(') { //cuando encuentre un parentesis de cierre[m
+[31m-                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de cierre[m
+[31m-                while (!operadores.isEmpty() && !operadores.peek().equals(")")) {[m
+[31m-                  //lo operadores los agregea a la pila que vamos a retornar como resultado [m
+[31m-                    expresionPreOrden.add(operadores.pop());[m
+[31m-                }[m
+[31m-                //cuando encuentres el parentesis de apertura sacalo[m
+[31m-                operadores.pop();[m
+[31m-                //si el caracter es un numero[m
+[31m-            } else if (Character.isDigit(expresion.charAt(i))) {[m
+[31m-                //concatenar la cadena de numeros[m
+[31m-                numero = expresion.charAt(i) + numero;[m
+[31m-                //si no es un digito corta y mandalo a la pila[m
+[31m-                // Si estamos en el primer carácter de la expresión o el carácter anterior no es un dígito,[m
+[31m-                // significa que el número actual ha terminado y debe agregarse a la pila expresionPreOrden.[m
+[31m-                if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {[m
+[31m-//aniade al rsultado el numero [m
+[31m-                    expresionPreOrden.add(numero);[m
+[31m-                    numero = "";[m
+[31m-                }[m
+[31m-                //si es un operador o abre un parentesis manda la expresion a la pila de operadores[m
+[31m-            }[m
+[31m-        }[m
+[31m-        //por ultimo supongamos el caso (a+b)-(c-d)[m
+[31m-        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz[m
+[31m-        while (!operadores.isEmpty()) {[m
+[31m-            expresionPreOrden.add(operadores.pop());[m
+[31m-        }[m
+[31m-        //dado que agregamos de derecha a izquierda lo que tenemos que hacer para fformatearlo bien es volver a leerlo al revez[m
+[31m-        System.out.println("Expresion PreOrden  [R-I-D]");[m
+[31m-        for (int i = expresionPreOrden.size() - 1; i >= 0; i--) {[m
+[31m-            System.out.print(expresionPreOrden.get(i) + " ");[m
+[31m-        }[m
+[31m-        System.out.println();[m
+[31m-        return expresionPreOrden;[m
+[31m-    }[m
+[31m-    [m
+[31m-    [m
+[31m-[m
+[31m-    //como estamos trabajando tanto con raices o division puede devolvernos valores double[m
+[31m-    public void resultadoNotacionPolaca(Stack<String> expresionPila) {[m
+[31m-        Stack<String> pilaOperadoresOperandos = new Stack<>();[m
+[31m-        for (String dato : expresionPila) {[m
+[31m-            if (!esOperador(dato)) {[m
+[31m-                //ccrea un nodo del operando[m
+[31m-                pilaOperadoresOperandos.add(dato);[m
+[31m-                // los siguiente operandos[m
+[31m-            } else if (esOperador(dato)) {[m
+[31m-                //obtenemos el operadoor que vamooos a evaluar[m
+[31m-                String Operador = dato;[m
+[31m-                //otorgamos valor al operando derecho[m
+[31m-                Double operandoDerecho = Double.valueOf(pilaOperadoresOperandos.pop());[m
+[31m-                //otorgamos valor al operando izquierdo[m
+[31m-                Double operandoIzquierdo = Double.valueOf(pilaOperadoresOperandos.pop());[m
+[31m-                //obtenemos el resultadoo de evaluar lao operacion y poosteriormente la convertimos a string para guardarlo en la pila[m
+[31m-                String resultado = String.valueOf(realizarOperacion(Operador, operandoDerecho, operandoIzquierdo));[m
+[31m-                pilaOperadoresOperandos.add(resultado);[m
+[31m-            }[m
+[31m-        }[m
+[31m-        System.out.println("El resultado de evaluar la Notacion Polaca es: " + pilaOperadoresOperandos.pop());[m
+[31m-    }[m
+[31m-// aqui evaluamos los opoeradores  y retornamos el resultadoo[m
+[31m-[m
+[31m-    private double realizarOperacion(String operador, double operandoDerecha, double operandoIzquierda) {[m
+[31m-        switch (operador) {[m
+[31m-            case "+":[m
+[31m-                return operandoDerecha + operandoIzquierda;[m
+[31m-            case "-":[m
+[31m-                return operandoDerecha - operandoIzquierda;[m
+[31m-            case "*":[m
+[31m-                return operandoDerecha * operandoIzquierda;[m
+[31m-            case "/":[m
+[31m-                return operandoDerecha / operandoIzquierda;[m
+[31m-            case "^":[m
+[31m-                return Math.pow(operandoIzquierda, operandoDerecha);[m
+[31m-            case "√":[m
+[31m-                //para utilizar mayor exactitud usamos 1.0 para permitir decimales[m
+[31m-                //dado que java si cuenta con una funcion raiz pero limitada al indice 2[m
+[31m-                //usamos x^1/2 que seria lo mismo que 2√x^1[m
+[31m-                // el segundo parametro representa a 1/ operando -> operando^-1[m
+[31m-                // el primero a ^ operandoDrecha[m
+[31m-                // por ultimo ^OperandoDerecha/Operando Izquierda[m
+[31m-                return Math.pow(operandoDerecha, 1.0 / operandoIzquierda);[m
+[31m-        }[m
+[31m-        //si ninguno coincide retorna [m
+[31m-        return 0.0;[m
+[31m-    }[m
+[31m-[m
+[31m-    //evalua el caracter que te pase si coincide devuelve true[m
+[31m-    public boolean esOperador(String caracter) {[m
+[31m-        switch (caracter) {[m
+[31m-            case "+":[m
+[31m-            case "-":[m
+[31m-            case "*":[m
+[31m-            case "/":[m
+[31m-            case "^":[m
+[31m-            case "√":[m
+[31m-                return true;[m
+[31m-            default:[m
+[31m-                return false;[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-    public boolean validarExpresion(String expresion) {[m
+[31m-        //recorrer el arbol[m
+[31m-        for (int i = 0; i < expresion.length(); i++) {[m
+[31m-            //usamos una bandera iniciada en falso para saber si ya encotnramos alguna coincidencia[m
+[31m-            boolean encontrado = false;[m
+[31m-            //recorremos los caracteres que deseamos que se acepten[m
+[31m-            for (char caracter : permitidos) {[m
+[31m-                //si coincide retorna  true y vuelve a empezar[m
+[31m-                if (expresion.charAt(i) == caracter) {[m
+[31m-                    encontrado = true;[m
+[31m-                    break;[m
+[31m-                }[m
+[31m-            }[m
+[31m-            //si no lo encontraste no es una expresion valida[m
+[31m-            if (!encontrado) {[m
+[31m-                System.out.println("La expresión contiene caracteres no permitidos.");[m
+[31m-                return false;[m
+[31m-            }[m
+[31m-        }[m
+[31m-        //si todos se aceptaron devuelve true[m
+[31m-        System.out.println("La expresión es válida.");[m
+[31m-        return true;[m
+[31m-    }[m
+[31m-}[m
+[32m+[m[32m/*[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license[m
+[32m+[m[32m * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template[m
+[32m+[m[32m */[m
+[32m+[m[32mpackage com.mycompany.proyecto;[m
+[32m+[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Stack;[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m *[m
+[32m+[m[32m * @author victo[m
+[32m+[m[32m */[m
+[32m+[m[32mpublic class Validacion {[m
+[32m+[m
+[32m+[m[32m    private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[32m+[m[32m    //asigna valores a las variables ingresadas[m
+[32m+[m
+[32m+[m[32m    public String colocarVariables(String expresion, String caracter, String valor) {[m
+[32m+[m[32m        //instanciamos la expresion nueva que vamos a retornar[m
+[32m+[m[32m        String expresionNueva = "";[m
+[32m+[m[32m        //recorremos[m
+[32m+[m[32m        for (int i = 0; i < expresion.length(); i++) {[m
+[32m+[m[32m            //si el caracter coincide coon la variable[m
+[32m+[m[32m            if (expresion.charAt(i) == caracter.charAt(0)) {[m
+[32m+[m[32m                //el valor que le pasamos lo sustituimoos[m
+[32m+[m[32m                expresionNueva += valor;[m
+[32m+[m[32m            } else {[m
+[32m+[m[32m                //si no coincide seguimoos armando la expresion[m
+[32m+[m[32m                expresionNueva += expresion.charAt(i);[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        System.out.println("expresion nueuva: " + expresionNueva);[m
+[32m+[m[32m        return expresionNueva;[m
+[32m+[m[32m    }[m
+[32m+[m[32m    //aqui revisa las variables ingresadas[m
+[32m+[m
+[32m+[m[32m    //se encarga de validar las vas variables[m
+[32m+[m[32m    public int verificarVariables(String expresion) {[m
+[32m+[m[32m        //verificamos que lo que le estamos pasando sean variables en la expresion en casoo las halla[m
+[32m+[m[32m        int contador = 0;[m
+[32m+[m[32m        //colocamos los numeros por que tambien vamos a podoer pasarle numeros ya en la expresion[m
+[32m+[m[32m        char[] noVariables = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};[m
+[32m+[m[32m        //recorremoos[m
+[32m+[m[32m        for (int i = 0; i < expresion.length(); i++) {[m
+[32m+[m[32m            //guardamos el caracter en una variable de tipo char[m
+[32m+[m[32m            char caracter = expresion.charAt(i);[m
+[32m+[m[32m            //creamos una flag que nos diggag si es variable oo noo[m
+[32m+[m[32m            boolean esVariable = true;[m
+[32m+[m[32m            //si el caracter esta en los no permitidos entonces vas a retornar falso y saldras del bucle por que ya encontraste algo[m
+[32m+[m[32m            for (char noVariable : noVariables) {[m
+[32m+[m[32m                if (caracter == noVariable) {[m
+[32m+[m[32m                    esVariable = false;[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m            //si es variable osea no esta en no variables[m
+[32m+[m[32m            if (esVariable) {[m
+[32m+[m[32m                //anadie al contador[m
+[32m+[m[32m                contador++;[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //el contador noos va a servir para pedir tantas veces el numero de datos a ingresar[m
+[32m+[m[32m        //Por ejemplo: a+b -> seria 2 variables osea 2[m[41m [m
+[32m+[m[32m        // ya luegoo en el while del menu va a iterar 2 vecces y nos pedira la letra de la variable y su valor para pasarlo a la otora funcion[m[41m  [m
+[32m+[m[32m        return contador;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    //conversion de inorden a postoorden[m
+[32m+[m[32m    public Stack<String> conversionPostorden(String expresion) {[m
+[32m+[m[32m        Stack<String> expresionPostfija = new Stack<>();[m
+[32m+[m[32m        Stack<Character> operadores = new Stack<>();[m
+[32m+[m
+[32m+[m[32m        for (int i = 0; i < expresion.length(); i++) {[m
+[32m+[m[32m            char c = expresion.charAt(i);[m
+[32m+[m
+[32m+[m[32m            if (Character.isLetterOrDigit(c)) {[m
+[32m+[m[32m                // Si es una letra o dígito, agregar al resultado final[m
+[32m+[m[32m                expresionPostfija.add(String.valueOf(c));[m
+[32m+[m[32m            } else if (c == '+' || c == '-' || c == '*' || c == '/') {[m
+[32m+[m[32m                // Si es un operador[m
+[32m+[m[32m                while (!operadores.isEmpty() && prioridadOperador(c) <= prioridadOperador(operadores.peek())) {[m
+[32m+[m[32m                    expresionPostfija.add(String.valueOf(operadores.pop()));[m
+[32m+[m[32m                }[m
+[32m+[m[32m                operadores.push(c);[m
+[32m+[m[32m            } else if (c == '(') {[m
+[32m+[m[32m                // Si es un paréntesis de apertura, agregar a la pila de operadores[m
+[32m+[m[32m                operadores.push(c);[m
+[32m+[m[32m            } else if (c == ')') {[m
+[32m+[m[32m                // Si es un paréntesis de cierre, desapilar operadores hasta encontrar '('[m
+[32m+[m[32m                while (!operadores.isEmpty() && operadores.peek() != '(') {[m
+[32m+[m[32m                    expresionPostfija.add(String.valueOf(operadores.pop()));[m
+[32m+[m[32m                }[m
+[32m+[m[32m                operadores.pop(); // Eliminar '(' de la pila[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // Desapilar todos los operadores restantes[m
+[32m+[m[32m        while (!operadores.isEmpty()) {[m
+[32m+[m[32m            expresionPostfija.add(String.valueOf(operadores.pop()));[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return expresionPostfija;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private int prioridadOperador(char operador) {[m
+[32m+[m[32m        switch (operador) {[m
+[32m+[m[32m            case '+':[m
+[32m+[m[32m            case '-':[m
+[32m+[m[32m                return 1;[m
+[32m+[m[32m            case '*':[m
+[32m+[m[32m            case '/':[m
+[32m+[m[32m                return 2;[m
+[32m+[m[32m            default:[m
+[32m+[m[32m                return 0; // Para cualquier otro operador, como '(' o ')'[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    //realiza la conversion de inorden a preorden[m
+[32m+[m[32m    public Stack<String> conversionPreorden(String expresion) {[m
+[32m+[m[32m        //la primerma condicion es recorrer de derecha a izquierda la expresion[m
+[32m+[m[32m        Stack<String> expresionPreOrden = new Stack<>();[m
+[32m+[m[32m        Stack<String> operadores = new Stack<>();[m
+[32m+[m[32m        String numero = "";[m
+[32m+[m
+[32m+[m[32m//        int contadorPrueba = 0;[m
+[32m+[m[32m        for (int i = expresion.length() - 1; i >= 0; i--) {[m
+[32m+[m
+[32m+[m[32m            //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores[m
+[32m+[m[32m            if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {[m
+[32m+[m[32m                operadores.add(String.valueOf(expresion.charAt(i)));[m
+[32m+[m[32m                //si encuentras el parentesis que abre entonces limpia la pila de operadores hasta el parentesis de cierre[m
+[32m+[m[32m            } else if (expresion.charAt(i) == '(') { //cuando encuentre un parentesis de cierre[m
+[32m+[m[32m                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de cierre[m
+[32m+[m[32m                while (!operadores.isEmpty() && !operadores.peek().equals(")")) {[m
+[32m+[m[32m                  //lo operadores los agregea a la pila que vamos a retornar como resultado[m[41m [m
+[32m+[m[32m                    expresionPreOrden.add(operadores.pop());[m
+[32m+[m[32m                }[m
+[32m+[m[32m                //cuando encuentres el parentesis de apertura sacalo[m
+[32m+[m[32m                operadores.pop();[m
+[32m+[m[32m                //si el caracter es un numero[m
+[32m+[m[32m            } else if (Character.isDigit(expresion.charAt(i))) {[m
+[32m+[m[32m                //concatenar la cadena de numeros[m
+[32m+[m[32m                numero = expresion.charAt(i) + numero;[m
+[32m+[m[32m                //si no es un digito corta y mandalo a la pila[m
+[32m+[m[32m                if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {[m
+[32m+[m[32m                    //aniade al rsultado el numero[m[41m [m
+[32m+[m[32m                    expresionPreOrden.add(numero);[m
+[32m+[m[32m                    numero = "";[m
+[32m+[m[32m                }[m
+[32m+[m[32m                //si es un operador o abre un parentesis manda la expresion a la pila de operadores[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //por ultimo supongamos el caso (a+b)-(c-d)[m
+[32m+[m[32m        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz[m
+[32m+[m[32m        while (!operadores.isEmpty()) {[m
+[32m+[m[32m            expresionPreOrden.add(operadores.pop());[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //dado que agregamos de derecha a izquierda lo que tenemos que hacer para fformatearlo bien es volver a leerlo al revez[m
+[32m+[m[32m        System.out.println("Expresion PreOrden  [R-I-D]");[m
+[32m+[m[32m        for (int i = expresionPreOrden.size() - 1; i >= 0; i--) {[m
+[32m+[m[32m            System.out.print(expresionPreOrden.get(i) + " ");[m
+[32m+[m[32m        }[m
+[32m+[m[32m        System.out.println();[m
+[32m+[m[32m        return expresionPreOrden;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    //como estamos trabajando tanto con raices o division puede devolvernos valores double[m
+[32m+[m[32m    public void resultadoNotacionPolaca(Stack<String> expresionPila) {[m
+[32m+[m[32m        Stack<String> pilaOperadoresOperandos = new Stack<>();[m
+[32m+[m[32m        for (String dato : expresionPila) {[m
+[32m+[m[32m            if (!esOperador(dato)) {[m
+[32m+[m[32m                //ccrea un nodo del operando[m
+[32m+[m[32m                pilaOperadoresOperandos.add(dato);[m
+[32m+[m[32m                // los siguiente operandos[m
+[32m+[m[32m            } else if (esOperador(dato)) {[m
+[32m+[m[32m                //obtenemos el operadoor que vamooos a evaluar[m
+[32m+[m[32m                String Operador = dato;[m
+[32m+[m[32m                //otorgamos valor al operando derecho[m
+[32m+[m[32m                Double operandoDerecho = Double.valueOf(pilaOperadoresOperandos.pop());[m
+[32m+[m[32m                //otorgamos valor al operando izquierdo[m
+[32m+[m[32m                Double operandoIzquierdo = Double.valueOf(pilaOperadoresOperandos.pop());[m
+[32m+[m[32m                //obtenemos el resultadoo de evaluar lao operacion y poosteriormente la convertimos a string para guardarlo en la pila[m
+[32m+[m[32m                String resultado = String.valueOf(realizarOperacion(Operador, operandoDerecho, operandoIzquierdo));[m
+[32m+[m[32m                pilaOperadoresOperandos.add(resultado);[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        System.out.println("El resultado de evaluar la Notacion Polaca es: " + pilaOperadoresOperandos.pop());[m
+[32m+[m[32m    }[m
+[32m+[m[32m// aqui evaluamos los opoeradores  y retornamos el resultadoo[m
+[32m+[m
+[32m+[m[32m    private double realizarOperacion(String operador, double operandoDerecha, double operandoIzquierda) {[m
+[32m+[m[32m        switch (operador) {[m
+[32m+[m[32m            case "+":[m
+[32m+[m[32m                return operandoDerecha + operandoIzquierda;[m
+[32m+[m[32m            case "-":[m
+[32m+[m[32m                return operandoDerecha - operandoIzquierda;[m
+[32m+[m[32m            case "*":[m
+[32m+[m[32m                return operandoDerecha * operandoIzquierda;[m
+[32m+[m[32m            case "/":[m
+[32m+[m[32m                return operandoDerecha / operandoIzquierda;[m
+[32m+[m[32m            case "^":[m
+[32m+[m[32m                return Math.pow(operandoIzquierda, operandoDerecha);[m
+[32m+[m[32m            case "√":[m
+[32m+[m[32m                //para utilizar mayor exactitud usamos 1.0 para permitir decimales[m
+[32m+[m[32m                //dado que java si cuenta con una funcion raiz pero limitada al indice 2[m
+[32m+[m[32m                //usamos x^1/2 que seria lo mismo que 2√x^1[m
+[32m+[m[32m                // el segundo parametro representa a 1/ operando -> operando^-1[m
+[32m+[m[32m                // el primero a ^ operandoDrecha[m
+[32m+[m[32m                // por ultimo ^OperandoDerecha/Operando Izquierda[m
+[32m+[m[32m                return Math.pow(operandoDerecha, 1.0 / operandoIzquierda);[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //si ninguno coincide retorna[m[41m [m
+[32m+[m[32m        return 0.0;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    //evalua el caracter que te pase si coincide devuelve true[m
+[32m+[m[32m    public boolean esOperador(String caracter) {[m
+[32m+[m[32m        switch (caracter) {[m
+[32m+[m[32m            case "+":[m
+[32m+[m[32m            case "-":[m
+[32m+[m[32m            case "*":[m
+[32m+[m[32m            case "/":[m
+[32m+[m[32m            case "^":[m
+[32m+[m[32m            case "√":[m
+[32m+[m[32m                return true;[m
+[32m+[m[32m            default:[m
+[32m+[m[32m                return false;[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public boolean validarExpresion(String expresion) {[m
+[32m+[m[32m        //recorrer el arbol[m
+[32m+[m[32m        for (int i = 0; i < expresion.length(); i++) {[m
+[32m+[m[32m            //usamos una bandera iniciada en falso para saber si ya encotnramos alguna coincidencia[m
+[32m+[m[32m            boolean encontrado = false;[m
+[32m+[m[32m            //recorremos los caracteres que deseamos que se acepten[m
+[32m+[m[32m            for (char caracter : permitidos) {[m
+[32m+[m[32m                //si coincide retorna  true y vuelve a empezar[m
+[32m+[m[32m                if (expresion.charAt(i) == caracter) {[m
+[32m+[m[32m                    encontrado = true;[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m            //si no lo encontraste no es una expresion valida[m
+[32m+[m[32m            if (!encontrado) {[m
+[32m+[m[32m                System.out.println("La expresión contiene caracteres no permitidos.");[m
+[32m+[m[32m                return false;[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //si todos se aceptaron devuelve true[m
+[32m+[m[32m        System.out.println("La expresión es válida.");[m
+[32m+[m[32m        return true;[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/src/main/java/com/mycompany/proyecto/metodosArbol.java b/src/main/java/com/mycompany/proyecto/metodosArbol.java[m
+[1mindex f611d87..40d4ac6 100644[m
+[1m--- a/src/main/java/com/mycompany/proyecto/metodosArbol.java[m
+[1m+++ b/src/main/java/com/mycompany/proyecto/metodosArbol.java[m
+[36m@@ -1,162 +1,162 @@[m
+[31m-package com.mycompany.proyecto;[m
+[31m-[m
+[31m-import java.util.ArrayList;[m
+[31m-import java.util.List;[m
+[31m-import java.util.Stack;[m
+[31m-[m
+[31m-public class metodosArbol {[m
+[31m-[m
+[31m-    private char[] jerarquia5 = {'(', ')', '{', '}', '[', ']'};[m
+[31m-    private char[] jerarquia4 = {'√', '^'};[m
+[31m-    private char[] jerarquia3 = {'*', '/'};[m
+[31m-    private char[] jerarquia2 = {'+', '-'};[m
+[31m-    private char[] jerarquia1 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[31m-    private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[31m-    public Nodo Arbol = new Nodo();[m
+[31m-[m
+[31m-    //alt scroll cambiar zoom[m
+[31m-    //a+b-(c-d)+e[m
+[31m-    //e+(d-c)-b+a[m
+[31m-    //a+b-c[m
+[31m-    //(c-b)+a[m
+[31m-    public Nodo Arbol(String expresion) {[m
+[31m-        if (validarExpresion(expresion)) {[m
+[31m-            Arbol = construirArbolExpresion(expresion);[m
+[31m-            System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());[m
+[31m-            mostrarArbol(Arbol);[m
+[31m-[m
+[31m-            return Arbol;[m
+[31m-[m
+[31m-        }[m
+[31m-        return Arbol;[m
+[31m-    }[m
+[31m-[m
+[31m-    private Nodo construirArbolExpresion(String expresion) {[m
+[31m-        //la pila debe contener caracteres[m
+[31m-        Stack<String> pila = new Stack<>();[m
+[31m-        Stack<Nodo> pilaNodo = new Stack<>();[m
+[31m-        String numero = "";[m
+[31m-        int j = 0;[m
+[31m-        Nodo actual = new Nodo();[m
+[31m-        //a+b -> b+a[m
+[31m-        //10+23 -> 32+01[m
+[31m-        for (int i = expresion.length() - 1; i >= 0; i--) {[m
+[31m-[m
+[31m-            switch (expresion.charAt(i)) {[m
+[31m-                //le da prioridad a los parentesis[m
+[31m-                case '(':[m
+[31m-                    pila.add(String.valueOf(expresion.charAt(i)));[m
+[31m-                    break;[m
+[31m-                case ')':[m
+[31m-                    //en caso que halles[m
+[31m-                    pila.remove('(');[m
+[31m-                    break;[m
+[31m-                case '+':[m
+[31m-                case '-':[m
+[31m-                case '*':[m
+[31m-                case '/':[m
+[31m-                case '^':[m
+[31m-                case '√':[m
+[31m-                    pila.add(String.valueOf(expresion.charAt(i)));[m
+[31m-                    break;[m
+[31m-                default:[m
+[31m-                    if (Character.isDigit(expresion.charAt(i))) {[m
+[31m-                        numero = expresion.charAt(i) + numero;[m
+[31m-                        if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {[m
+[31m-                            pila.add(numero);[m
+[31m-                            numero = "";[m
+[31m-                        }[m
+[31m-                    }[m
+[31m-                    break;[m
+[31m-            }[m
+[31m-            //mientras la pila noo este vacia[m
+[31m-            while (!pila.isEmpty()) {[m
+[31m-[m
+[31m-                String valorIzquierdo = pila.pop(); // quita de arriba de la pila y ugarda el valor[m
+[31m-                String valorRaiz = valorIzquierdo; //solo copia el dato para mams claridad[m
+[31m-[m
+[31m-                if (!esOperador(valorIzquierdo)) {[m
+[31m-                    // Si el elemento no es un operador, crea un nodo con ese elemento y asigna como hijo izquierdo de 'actual'[m
+[31m-                    System.out.println(valorIzquierdo);[m
+[31m-                    actual.setNodoIzquierda(new Nodo(valorIzquierdo));[m
+[31m-                } else {[m
+[31m-                    // Si el elemento es un operador, asigna ese elemento como el actual o raiz en este casco[m
+[31m-                    actual.setActual(valorRaiz);[m
+[31m-                    // Comprueba si hay más elementos en la pila para asignar el hijo derecho   [m
+[31m-                    if (!pila.isEmpty()) {[m
+[31m-                        String valorDerecho = pila.pop(); // Desapila el siguiente elemento[m
+[31m-                        if (!esOperador(valorDerecho)) {[m
+[31m-                            // Si el siguiente elemento no es un operador, crea un nodo con ese elemento y asigna como hijo derecho de 'actual'[m
+[31m-                            actual.setNodoDerecha(new Nodo(valorDerecho));[m
+[31m-                        }[m
+[31m-                    }[m
+[31m-                }[m
+[31m-            }[m
+[31m-            pilaNodo.add(actual);[m
+[31m-            actual = new Nodo();[m
+[31m-            //se activa cuando tengag cosas[m
+[31m-            while (!pilaNodo.isEmpty() && pilaNodo.size() < 2) {[m
+[31m-                String valorDerecho = pila.pop(); // Desapila el siguiente elemento[m
+[31m-                String valorRaiz = valorDerecho; //solo copia el dato para mams claridad[m
+[31m-                if (!esOperador(valorDerecho)) {[m
+[31m-                    actual.setNodoDerecha(new Nodo(valorDerecho));[m
+[31m-                } else {[m
+[31m-                    actual.setActual(valorRaiz);[m
+[31m-                }[m
+[31m-                actual.setNodoIzquierda(pilaNodo.pop());[m
+[31m-            }[m
+[31m-            pilaNodo.add(actual);[m
+[31m-        }[m
+[31m-        //en este caso se agregaria para ponerse a la izquierda[m
+[31m-        Arbol = actual;[m
+[31m-        return Arbol;[m
+[31m-    }[m
+[31m-[m
+[31m-    private boolean esOperador(String caracter) {[m
+[31m-        switch (caracter) {[m
+[31m-            case "+":[m
+[31m-            case "-":[m
+[31m-            case "*":[m
+[31m-            case "/":[m
+[31m-            case "^":[m
+[31m-            case "√":[m
+[31m-            case "(":[m
+[31m-            case ")":[m
+[31m-                return true;[m
+[31m-            default:[m
+[31m-                return false;[m
+[31m-        }[m
+[31m-    }[m
+[31m-[m
+[31m-    private boolean validarExpresion(String expresion) {[m
+[31m-        for (int i = 0; i < expresion.length(); i++) {[m
+[31m-            boolean encontrado = false;[m
+[31m-            for (char caracter : permitidos) {[m
+[31m-                if (expresion.charAt(i) == caracter) {[m
+[31m-                    encontrado = true;[m
+[31m-                    break;[m
+[31m-                }[m
+[31m-            }[m
+[31m-            if (!encontrado) {[m
+[31m-                System.out.println("La expresión contiene caracteres no permitidos.");[m
+[31m-                return false;[m
+[31m-            }[m
+[31m-        }[m
+[31m-        System.out.println("La expresión es válida.");[m
+[31m-        return true;[m
+[31m-    }[m
+[31m-[m
+[31m-    public void mostrarArbol(Nodo nodo) {[m
+[31m-        if (nodo != null) {[m
+[31m-            System.out.println(" " + nodo.getActual() + " ");[m
+[31m-            if (nodo.getNodoIzquierda() != null) {[m
+[31m-                System.out.println("Subárbol izquierdo [<-]:");[m
+[31m-                mostrarArbol(nodo.getNodoIzquierda());[m
+[31m-            }[m
+[31m-            if (nodo.getNodoDerecha() != null) {[m
+[31m-                System.out.println("Subárbol derecho [->]:");[m
+[31m-                mostrarArbol(nodo.getNodoDerecha());[m
+[31m-            }[m
+[31m-        }[m
+[31m-    }[m
+[31m-}[m
+[32m+[m[32mpackage com.mycompany.proyecto;[m
+[32m+[m
+[32m+[m[32mimport java.util.ArrayList;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m[32mimport java.util.Stack;[m
+[32m+[m
+[32m+[m[32mpublic class metodosArbol {[m
+[32m+[m
+[32m+[m[32m    private char[] jerarquia5 = {'(', ')', '{', '}', '[', ']'};[m
+[32m+[m[32m    private char[] jerarquia4 = {'√', '^'};[m
+[32m+[m[32m    private char[] jerarquia3 = {'*', '/'};[m
+[32m+[m[32m    private char[] jerarquia2 = {'+', '-'};[m
+[32m+[m[32m    private char[] jerarquia1 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[32m+[m[32m    private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};[m
+[32m+[m[32m    public Nodo Arbol = new Nodo();[m
+[32m+[m
+[32m+[m[32m    //alt scroll cambiar zoom[m
+[32m+[m[32m    //a+b-(c-d)+e[m
+[32m+[m[32m    //e+(d-c)-b+a[m
+[32m+[m[32m    //a+b-c[m
+[32m+[m[32m    //(c-b)+a[m
+[32m+[m[32m    public Nodo Arbol(String expresion) {[m
+[32m+[m[32m        if (validarExpresion(expresion)) {[m
+[32m+[m[32m            Arbol = construirArbolExpresion(expresion);[m
+[32m+[m[32m            System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());[m
+[32m+[m[32m            mostrarArbol(Arbol);[m
+[32m+[m
+[32m+[m[32m            return Arbol;[m
+[32m+[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return Arbol;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private Nodo construirArbolExpresion(String expresion) {[m
+[32m+[m[32m        //la pila debe contener caracteres[m
+[32m+[m[32m        Stack<String> pila = new Stack<>();[m
+[32m+[m[32m        Stack<Nodo> pilaNodo = new Stack<>();[m
+[32m+[m[32m        String numero = "";[m
+[32m+[m[32m        int j = 0;[m
+[32m+[m[32m        Nodo actual = new Nodo();[m
+[32m+[m[32m        //a+b -> b+a[m
+[32m+[m[32m        //10+23 -> 32+01[m
+[32m+[m[32m        for (int i = expresion.length() - 1; i >= 0; i--) {[m
+[32m+[m
+[32m+[m[32m            switch (expresion.charAt(i)) {[m
+[32m+[m[32m                //le da prioridad a los parentesis[m
+[32m+[m[32m                case '(':[m
+[32m+[m[32m                    pila.add(String.valueOf(expresion.charAt(i)));[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                case ')':[m
+[32m+[m[32m                    //en caso que halles[m
+[32m+[m[32m                    pila.remove('(');[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                case '+':[m
+[32m+[m[32m                case '-':[m
+[32m+[m[32m                case '*':[m
+[32m+[m[32m                case '/':[m
+[32m+[m[32m                case '^':[m
+[32m+[m[32m                case '√':[m
+[32m+[m[32m                    pila.add(String.valueOf(expresion.charAt(i)));[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                default:[m
+[32m+[m[32m                    if (Character.isDigit(expresion.charAt(i))) {[m
+[32m+[m[32m                        numero = expresion.charAt(i) + numero;[m
+[32m+[m[32m                        if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {[m
+[32m+[m[32m                            pila.add(numero);[m
+[32m+[m[32m                            numero = "";[m
+[32m+[m[32m                        }[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m            }[m
+[32m+[m[32m            //mientras la pila noo este vacia[m
+[32m+[m[32m            while (!pila.isEmpty()) {[m
+[32m+[m
+[32m+[m[32m                String valorIzquierdo = pila.pop(); // quita de arriba de la pila y ugarda el valor[m
+[32m+[m[32m                String valorRaiz = valorIzquierdo; //solo copia el dato para mams claridad[m
+[32m+[m
+[32m+[m[32m                if (!esOperador(valorIzquierdo)) {[m
+[32m+[m[32m                    // Si el elemento no es un operador, crea un nodo con ese elemento y asigna como hijo izquierdo de 'actual'[m
+[32m+[m[32m                    System.out.println(valorIzquierdo);[m
+[32m+[m[32m                    actual.setNodoIzquierda(new Nodo(valorIzquierdo));[m
+[32m+[m[32m                } else {[m
+[32m+[m[32m                    // Si el elemento es un operador, asigna ese elemento como el actual o raiz en este casco[m
+[32m+[m[32m                    actual.setActual(valorRaiz);[m
+[32m+[m[32m                    // Comprueba si hay más elementos en la pila para asignar el hijo derecho[m[41m   [m
+[32m+[m[32m                    if (!pila.isEmpty()) {[m
+[32m+[m[32m                        String valorDerecho = pila.pop(); // Desapila el siguiente elemento[m
+[32m+[m[32m                        if (!esOperador(valorDerecho)) {[m
+[32m+[m[32m                            // Si el siguiente elemento no es un operador, crea un nodo con ese elemento y asigna como hijo derecho de 'actual'[m
+[32m+[m[32m                            actual.setNodoDerecha(new Nodo(valorDerecho));[m
+[32m+[m[32m                        }[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m            pilaNodo.add(actual);[m
+[32m+[m[32m            actual = new Nodo();[m
+[32m+[m[32m            //se activa cuando tengag cosas[m
+[32m+[m[32m            while (!pilaNodo.isEmpty() && pilaNodo.size() < 2) {[m
+[32m+[m[32m                String valorDerecho = pila.pop(); // Desapila el siguiente elemento[m
+[32m+[m[32m                String valorRaiz = valorDerecho; //solo copia el dato para mams claridad[m
+[32m+[m[32m                if (!esOperador(valorDerecho)) {[m
+[32m+[m[32m                    actual.setNodoDerecha(new Nodo(valorDerecho));[m
+[32m+[m[32m                } else {[m
+[32m+[m[32m                    actual.setActual(valorRaiz);[m
+[32m+[m[32m                }[m
+[32m+[m[32m                actual.setNodoIzquierda(pilaNodo.pop());[m
+[32m+[m[32m            }[m
+[32m+[m[32m            pilaNodo.add(actual);[m
+[32m+[m[32m        }[m
+[32m+[m[32m        //en este caso se agregaria para ponerse a la izquierda[m
+[32m+[m[32m        Arbol = actual;[m
+[32m+[m[32m        return Arbol;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private boolean esOperador(String caracter) {[m
+[32m+[m[32m        switch (caracter) {[m
+[32m+[m[32m            case "+":[m
+[32m+[m[32m            case "-":[m
+[32m+[m[32m            case "*":[m
+[32m+[m[32m            case "/":[m
+[32m+[m[32m            case "^":[m
+[32m+[m[32m            case "√":[m
+[32m+[m[32m            case "(":[m
+[32m+[m[32m            case ")":[m
+[32m+[m[32m                return true;[m
+[32m+[m[32m            default:[m
+[32m+[m[32m                return false;[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    private boolean validarExpresion(String expresion) {[m
+[32m+[m[32m        for (int i = 0; i < expresion.length(); i++) {[m
+[32m+[m[32m            boolean encontrado = false;[m
+[32m+[m[32m            for (char caracter : permitidos) {[m
+[32m+[m[32m                if (expresion.charAt(i) == caracter) {[m
+[32m+[m[32m                    encontrado = true;[m
+[32m+[m[32m                    break;[m
+[32m+[m[32m                }[m
+[32m+[m[32m            }[m
+[32m+[m[32m            if (!encontrado) {[m
+[32m+[m[32m                System.out.println("La expresión contiene caracteres no permitidos.");[m
+[32m+[m[32m                return false;[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m        System.out.println("La expresión es válida.");[m
+[32m+[m[32m        return true;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public void mostrarArbol(Nodo nodo) {[m
+[32m+[m[32m        if (nodo != null) {[m
+[32m+[m[32m            System.out.println(" " + nodo.getActual() + " ");[m
+[32m+[m[32m            if (nodo.getNodoIzquierda() != null) {[m
+[32m+[m[32m                System.out.println("Subárbol izquierdo [<-]:");[m
+[32m+[m[32m                mostrarArbol(nodo.getNodoIzquierda());[m
+[32m+[m[32m            }[m
+[32m+[m[32m            if (nodo.getNodoDerecha() != null) {[m
+[32m+[m[32m                System.out.println("Subárbol derecho [->]:");[m
+[32m+[m[32m                mostrarArbol(nodo.getNodoDerecha());[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[32m}[m
+[1mdiff --git a/target/classes/com/mycompany/proyecto/Arbol.class b/target/classes/com/mycompany/proyecto/Arbol.class[m
+[1mindex 7ff28a6..c5bef9a 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/Arbol.class and b/target/classes/com/mycompany/proyecto/Arbol.class differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/ArbolGrafico.class b/target/classes/com/mycompany/proyecto/ArbolGrafico.class[m
+[1mindex 7dafe97..77fa3f7 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/ArbolGrafico.class and b/target/classes/com/mycompany/proyecto/ArbolGrafico.class differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/Nodo.class b/target/classes/com/mycompany/proyecto/Nodo.class[m
+[1mindex 5682308..10f5917 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/Nodo.class and b/target/classes/com/mycompany/proyecto/Nodo.class differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/Proyecto.class b/target/classes/com/mycompany/proyecto/Proyecto.class[m
+[1mindex 9365561..2c5db93 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/Proyecto.class and b/target/classes/com/mycompany/proyecto/Proyecto.class differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/Validacion.class b/target/classes/com/mycompany/proyecto/Validacion.class[m
+[1mindex 197b19d..ddc697d 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/Validacion.class and b/target/classes/com/mycompany/proyecto/Validacion.class differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/grafico.class b/target/classes/com/mycompany/proyecto/grafico.class[m
+[1mdeleted file mode 100644[m
+[1mindex 1dc62df..0000000[m
+Binary files a/target/classes/com/mycompany/proyecto/grafico.class and /dev/null differ
+[1mdiff --git a/target/classes/com/mycompany/proyecto/metodosArbol.class b/target/classes/com/mycompany/proyecto/metodosArbol.class[m
+[1mindex 1235ef3..77793bd 100644[m
+Binary files a/target/classes/com/mycompany/proyecto/metodosArbol.class and b/target/classes/com/mycompany/proyecto/metodosArbol.class differ
+[1mdiff --git a/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst b/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst[m
+[1mindex 7523ae5..a51b344 100644[m
+[1m--- a/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst[m
+[1m+++ b/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst[m
+[36m@@ -1,10 +1,6 @@[m
+[31m-<<<<<<< HEAD[m
+[31m-com\mycompany\proyecto\metodosArbol.class[m
+[31m-com\mycompany\proyecto\Nodo.class[m
+[31m-com\mycompany\proyecto\Proyecto.class[m
+[31m-=======[m
+[31m-com\mycompany\proyecto\ArbolGrafico.class[m
+[31m-com\mycompany\proyecto\Proyecto.class[m
+[31m-com\mycompany\proyecto\metodosArbol.class[m
+[31m-com\mycompany\proyecto\Nodo.class[m
+[31m->>>>>>> 3db5e83a80d0421fe0f117c78e335ae5f5e5da3a[m
+[32m+[m[32mcom\mycompany\proyecto\Arbol.class[m
+[32m+[m[32mcom\mycompany\proyecto\ArbolGrafico.class[m
+[32m+[m[32mcom\mycompany\proyecto\Validacion.class[m
+[32m+[m[32mcom\mycompany\proyecto\Proyecto.class[m
+[32m+[m[32mcom\mycompany\proyecto\metodosArbol.class[m
+[32m+[m[32mcom\mycompany\proyecto\Nodo.class[m
+[1mdiff --git a/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst b/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst[m
+[1mindex 6e5c139..e651102 100644[m
+[1m--- a/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst[m
+[1m+++ b/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst[m
+[36m@@ -1,10 +1,6 @@[m
+[31m-<<<<<<< HEAD[m
+[31m-C:\Users\victo\OneDrive\Documentos\NetBeansProjects\proyecto\src\main\java\com\mycompany\proyecto\metodosArbol.java[m
+[31m-C:\Users\victo\OneDrive\Documentos\NetBeansProjects\proyecto\src\main\java\com\mycompany\proyecto\Nodo.java[m
+[31m-C:\Users\victo\OneDrive\Documentos\NetBeansProjects\proyecto\src\main\java\com\mycompany\proyecto\Proyecto.java[m
+[31m-=======[m
+[31m-C:\Users\g3ov6\Desktop\proyecto\proyecto\src\main\java\com\mycompany\proyecto\metodosArbol.java[m
+[31m-C:\Users\g3ov6\Desktop\proyecto\proyecto\src\main\java\com\mycompany\proyecto\Nodo.java[m
+[31m-C:\Users\g3ov6\Desktop\proyecto\proyecto\src\main\java\com\mycompany\proyecto\ArbolGrafico.java[m
+[31m-C:\Users\g3ov6\Desktop\proyecto\proyecto\src\main\java\com\mycompany\proyecto\Proyecto.java[m
+[31m->>>>>>> 3db5e83a80d0421fe0f117c78e335ae5f5e5da3a[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\Validacion.java[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\Proyecto.java[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\Nodo.java[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\Arbol.java[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\ArbolGrafico.java[m
+[32m+[m[32mC:\Users\g3ov6\Desktop\proyecto\src\main\java\com\mycompany\proyecto\metodosArbol.java[m

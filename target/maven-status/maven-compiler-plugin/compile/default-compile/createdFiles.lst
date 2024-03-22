@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 com\mycompany\proyecto\metodosArbol.class
 com\mycompany\proyecto\Nodo.class
 com\mycompany\proyecto\Proyecto.class
@@ -8,3 +9,11 @@ com\mycompany\proyecto\Proyecto.class
 com\mycompany\proyecto\metodosArbol.class
 com\mycompany\proyecto\Nodo.class
 >>>>>>> 3db5e83a80d0421fe0f117c78e335ae5f5e5da3a
+=======
+com\mycompany\proyecto\Arbol.class
+com\mycompany\proyecto\ArbolGrafico.class
+com\mycompany\proyecto\Validacion.class
+com\mycompany\proyecto\Proyecto.class
+com\mycompany\proyecto\metodosArbol.class
+com\mycompany\proyecto\Nodo.class
+>>>>>>> edwin
