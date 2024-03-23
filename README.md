@@ -1,11 +1,11 @@
 # Proyecto 1, Programación 3
 **Integrantes:**
 
-Victor Alfredo Macario Enriquez
+Victor Alfredo Macario Enriquez 7690-22-5042
 
-Edwin Geovany Valle Benito
+Edwin Geovany Valle Benito 7690-19-482
 
-Marvin Geobany Reyna Ortega
+Marvin Geobany Reyna Ortega 7690-22-8291
 
 
 ## Descripcion de Proyecto
@@ -563,3 +563,5 @@ La función validarExpresion verifica si una expresión dada contiene únicament
 ```
 
 Se adjunta video de prueba del funcionamiento del codigo.
+
+https://github.com/egvalle/ArbolExpresiones/assets/104967229/2170cf20-e91f-4731-a001-b9ca83c329b0
