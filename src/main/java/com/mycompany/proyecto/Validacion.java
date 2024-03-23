@@ -14,7 +14,7 @@ import java.util.Stack;
  */
 public class Validacion {
 
-    private char[] permitidos = {'(', ')', '{', '}', '[', ']', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private char[] permitidos = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
     //asigna valores a las variables ingresadas
 
     public String colocarVariables(String expresion, String caracter, String valor) {
@@ -66,57 +66,54 @@ public class Validacion {
         // ya luegoo en el while del menu va a iterar 2 vecces y nos pedira la letra de la variable y su valor para pasarlo a la otora funcion  
         return contador;
     }
-    
     //conversion de inorden a postoorden
+
+    //realiza la conversion de la expresion pero tambien retorna ya una pila de string para convertir a nodo en arbol
     public Stack<String> conversionPostorden(String expresion) {
+        //la primerma condicion es recorrer de izquierda a derecha la expresion
         Stack<String> expresionPostfija = new Stack<>();
-        Stack<Character> operadores = new Stack<>();
+        Stack<String> operadores = new Stack<>();
+        String numero = "";
 
+//        int contadorPrueba = 0;
         for (int i = 0; i < expresion.length(); i++) {
-            char c = expresion.charAt(i);
 
-            if (Character.isLetterOrDigit(c)) {
-                // Si es una letra o dígito, agregar al resultado final
-                expresionPostfija.add(String.valueOf(c));
-            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-                // Si es un operador
-                while (!operadores.isEmpty() && prioridadOperador(c) <= prioridadOperador(operadores.peek())) {
-                    expresionPostfija.add(String.valueOf(operadores.pop()));
+//si es un numero
+            if (Character.isDigit(expresion.charAt(i))) {
+                //concatenar la cadena de numeros
+                numero += expresion.charAt(i);
+                //si no es un digito corta y mandalo a la pila
+                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+//aniade al rsultado el numero 
+                    expresionPostfija.add(numero);
+                    numero = "";
                 }
-                operadores.push(c);
-            } else if (c == '(') {
-                // Si es un paréntesis de apertura, agregar a la pila de operadores
-                operadores.push(c);
-            } else if (c == ')') {
-                // Si es un paréntesis de cierre, desapilar operadores hasta encontrar '('
-                while (!operadores.isEmpty() && operadores.peek() != '(') {
-                    expresionPostfija.add(String.valueOf(operadores.pop()));
+                //si es un operador o abre un parentesis manda la expresion a la pila de operadores
+            } else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == '(') {
+                operadores.add(String.valueOf(expresion.charAt(i)));
+                //si encuentras el cierre entonces
+            } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre
+                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de apertura
+                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
+                    expresionPostfija.add(operadores.pop());
                 }
-                operadores.pop(); // Eliminar '(' de la pila
+                //cuando encuentres el parentesis de apertura sacalo
+                operadores.pop();
             }
         }
-
-        // Desapilar todos los operadores restantes
+        //por ultimo supongamos el caso (a+b)-(c-d)
+        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz
         while (!operadores.isEmpty()) {
-            expresionPostfija.add(String.valueOf(operadores.pop()));
+            expresionPostfija.add(operadores.pop());
         }
-
+        System.out.println("Expresion PostOrden [I-D-R]");
+        for (String expresiones : expresionPostfija) {
+            System.out.print(expresiones + " ");
+        }
+        System.out.println();
         return expresionPostfija;
     }
 
-    private int prioridadOperador(char operador) {
-        switch (operador) {
-            case '+':
-            case '-':
-                return 1;
-            case '*':
-            case '/':
-                return 2;
-            default:
-                return 0; // Para cualquier otro operador, como '(' o ')'
-        }
-    }
-    
     //realiza la conversion de inorden a preorden
     public Stack<String> conversionPreorden(String expresion) {
         //la primerma condicion es recorrer de derecha a izquierda la expresion
@@ -145,7 +142,7 @@ public class Validacion {
                 numero = expresion.charAt(i) + numero;
                 //si no es un digito corta y mandalo a la pila
                 if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {
-                    //aniade al rsultado el numero 
+//aniade al rsultado el numero 
                     expresionPreOrden.add(numero);
                     numero = "";
                 }
@@ -165,6 +162,8 @@ public class Validacion {
         System.out.println();
         return expresionPreOrden;
     }
+    
+    
 
     //como estamos trabajando tanto con raices o division puede devolvernos valores double
     public void resultadoNotacionPolaca(Stack<String> expresionPila) {
@@ -245,7 +244,7 @@ public class Validacion {
             }
             //si no lo encontraste no es una expresion valida
             if (!encontrado) {
-                System.out.println("La expresión contiene caracteres no permitidos.");
+                System.out.println("La expresión contiene caracteres no permitidos."+ expresion.charAt(i));
                 return false;
             }
         }
