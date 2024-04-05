@@ -36,7 +36,7 @@ public class Arbol {
 //a+b -> b+a
         for (String dato : pilaPostfija) {
             //el primer valor deberia ser la raiz osea un operador
-            if (!validar.esOperador(dato)) {
+            if (!validar.esOperador(dato) || dato.contains("-")) {
                 //ccrea un nodo del operando
                 pilaNodo.add(new Nodo(dato));
                 // los siguiente operandos
@@ -50,6 +50,18 @@ public class Arbol {
             }
         }
         return pilaNodo.pop();
+    }
+
+    public void recorrerPreorden(Nodo nodo) {
+        if (nodo != null) {
+            System.out.print(nodo.getActual() + " ");
+            if (nodo.getNodoIzquierda() != null) {
+                recorrerInorden(nodo.getNodoIzquierda());
+            }
+            if (nodo.getNodoDerecha() != null) {
+                recorrerInorden(nodo.getNodoDerecha());
+            }
+        }
     }
 
     public void recorrerInorden(Nodo nodo) {

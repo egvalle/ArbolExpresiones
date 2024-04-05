@@ -13,8 +13,6 @@ package com.mycompany.proyecto;
 import javax.swing.*;
 import java.awt.*;
 
-import javax.swing.*;
-import java.awt.*;
 
 public class ArbolGrafico extends JPanel {
 

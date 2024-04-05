@@ -14,9 +14,10 @@ import java.util.Stack;
  */
 public class Validacion {
 
-    private char[] permitidos = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    //asigna valores a las variables ingresadas
+    //private char[] permitidos = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private String[] permitidos = {"(", ")", "√", "^", "*", "/", "+", "-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",};
 
+//asigna valores a las variables ingresadas
     public String colocarVariables(String expresion, String caracter, String valor) {
         //instanciamos la expresion nueva que vamos a retornar
         String expresionNueva = "";
@@ -79,11 +80,16 @@ public class Validacion {
         for (int i = 0; i < expresion.length(); i++) {
 
 //si es un numero
-            if (Character.isDigit(expresion.charAt(i))) {
+            if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
                 //concatenar la cadena de numeros
                 numero += expresion.charAt(i);
                 //si no es un digito corta y mandalo a la pila
-                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+
+                //si la cadena numero empieza con negativo entonces va a ser un numeroo negativo
+                if (numero.startsWith("-")&&(i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
+                    expresionPostfija.add(numero);
+                    numero = "";
+                } else if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
 //aniade al rsultado el numero 
                     expresionPostfija.add(numero);
                     numero = "";
@@ -123,30 +129,33 @@ public class Validacion {
 
 //        int contadorPrueba = 0;
         for (int i = expresion.length() - 1; i >= 0; i--) {
+            if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
+                //concatenar la cadena de numeros
+                numero = expresion.charAt(i) + numero;
+                //si no es un digito corta y mandalo a la pila
 
-            //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores
-            if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {
+                if (numero.endsWith("-") && (i == 0 || !Character.isDigit(expresion.charAt(i - 1)))) {
+                    expresionPreOrden.add(numero);
+                    numero = "";
+                } else if (!Character.isDigit(expresion.charAt(i))) {
+                    // Si el caracter actual no es un dígito, se añade el número actual a la pila y se reinicia `numero`
+                    expresionPreOrden.add(numero);
+                    numero = "";
+                }
+            } //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores
+            //si es un operador o abre un parentesis manda la expresion a la pila de operadores
+            else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {
                 operadores.add(String.valueOf(expresion.charAt(i)));
                 //si encuentras el parentesis que abre entonces limpia la pila de operadores hasta el parentesis de cierre
             } else if (expresion.charAt(i) == '(') { //cuando encuentre un parentesis de cierre
                 //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de cierre
                 while (!operadores.isEmpty() && !operadores.peek().equals(")")) {
-                  //lo operadores los agregea a la pila que vamos a retornar como resultado 
+                    //lo operadores los agregea a la pila que vamos a retornar como resultado 
                     expresionPreOrden.add(operadores.pop());
                 }
                 //cuando encuentres el parentesis de apertura sacalo
                 operadores.pop();
                 //si el caracter es un numero
-            } else if (Character.isDigit(expresion.charAt(i))) {
-                //concatenar la cadena de numeros
-                numero = expresion.charAt(i) + numero;
-                //si no es un digito corta y mandalo a la pila
-                if (i == 0 || !Character.isDigit(expresion.charAt(i - 1))) {
-//aniade al rsultado el numero 
-                    expresionPreOrden.add(numero);
-                    numero = "";
-                }
-                //si es un operador o abre un parentesis manda la expresion a la pila de operadores
             }
         }
         //por ultimo supongamos el caso (a+b)-(c-d)
@@ -160,10 +169,12 @@ public class Validacion {
             System.out.print(expresionPreOrden.get(i) + " ");
         }
         System.out.println();
+
+        for (String dato : expresionPreOrden) {
+            System.out.println(dato);
+        }
         return expresionPreOrden;
     }
-    
-    
 
     //como estamos trabajando tanto con raices o division puede devolvernos valores double
     public void resultadoNotacionPolaca(Stack<String> expresionPila) {
@@ -201,7 +212,7 @@ public class Validacion {
                 return operandoDerecha / operandoIzquierda;
             case "^":
                 return Math.pow(operandoIzquierda, operandoDerecha);
-            case "√":
+            case "^1/n":
                 //para utilizar mayor exactitud usamos 1.0 para permitir decimales
                 //dado que java si cuenta con una funcion raiz pero limitada al indice 2
                 //usamos x^1/2 que seria lo mismo que 2√x^1
@@ -216,13 +227,14 @@ public class Validacion {
 
     //evalua el caracter que te pase si coincide devuelve true
     public boolean esOperador(String caracter) {
+
         switch (caracter) {
             case "+":
             case "-":
             case "*":
             case "/":
             case "^":
-            case "√":
+            case "^1/n":
                 return true;
             default:
                 return false;
@@ -235,16 +247,18 @@ public class Validacion {
             //usamos una bandera iniciada en falso para saber si ya encotnramos alguna coincidencia
             boolean encontrado = false;
             //recorremos los caracteres que deseamos que se acepten
-            for (char caracter : permitidos) {
+            //            for (char caracter : permitidos) {
+
+            for (String caracter : permitidos) {
                 //si coincide retorna  true y vuelve a empezar
-                if (expresion.charAt(i) == caracter) {
+                if (String.valueOf(expresion.charAt(i)).equalsIgnoreCase(caracter)) {
                     encontrado = true;
                     break;
                 }
             }
             //si no lo encontraste no es una expresion valida
             if (!encontrado) {
-                System.out.println("La expresión contiene caracteres no permitidos."+ expresion.charAt(i));
+                System.out.println("La expresión contiene caracteres no permitidos." + expresion.charAt(i));
                 return false;
             }
         }
