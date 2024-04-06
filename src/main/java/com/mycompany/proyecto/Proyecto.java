@@ -74,9 +74,19 @@ public class Proyecto {
                     System.out.println("Expresion InOrden   [I-R-D]");
                     arbol.recorrerInorden(ArbolExpresion);
                     System.out.println();
-                    //retornamos una pila al reves de validacion
-                    expresionPolaca = validar.conversionPreorden(expresionNueva);
-                    //aqui tengo que pasarle la pila a funcion para evaluar [recordar]
+                    /*
+                    System.out.println("Expresion PreOrdene   [R-I-D]");
+                    arbol.recorrerPreorden(ArbolExpresion);
+                    System.out.println();
+                     */
+//retornamos una pila al reves de validacion
+                    //expresionPolaca = validar.conversionPreorden(expresionNueva);
+                    System.out.println("Expresion InOrden   [R-I-D]");
+                    expresionPolaca = arbol.obtenerPreorden(expresionPostfija);
+                    arbol.recorrerPreOrden(ArbolExpresion);
+                    System.out.println();
+
+//aqui tengo que pasarle la pila a funcion para evaluar [recordar]
                     validar.resultadoNotacionPolaca(expresionPolaca);
                     break;
                 case 2:

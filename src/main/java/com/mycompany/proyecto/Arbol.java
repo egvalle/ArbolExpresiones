@@ -52,7 +52,25 @@ public class Arbol {
         return pilaNodo.pop();
     }
 
-    public void recorrerPreorden(Nodo nodo) {
+    public Stack<String> obtenerPreorden(Stack<String> expresionPostfija) {
+        Stack<String> pilaPostfija = expresionPostfija;
+        Stack<String> pilaPolaca = new Stack<>();
+
+        for (String dato : pilaPostfija) {
+            if (validar.esOperador(dato)) {
+                //ccrea un nodo del operando
+                pilaPolaca.add(dato);
+                // los siguiente operandos
+            } 
+            if (!validar.esOperador(dato) || (!validar.esOperador(dato) && dato.contains("-"))) {
+                pilaPolaca.add(dato);
+            }
+        }
+
+        return pilaPolaca;
+    }
+
+    public void recorrerPreOrden(Nodo nodo) {
         if (nodo != null) {
             System.out.print(nodo.getActual() + " ");
             if (nodo.getNodoIzquierda() != null) {
@@ -63,7 +81,7 @@ public class Arbol {
             }
         }
     }
-
+    
     public void recorrerInorden(Nodo nodo) {
         if (nodo != null) {
             if (nodo.getNodoIzquierda() != null) {

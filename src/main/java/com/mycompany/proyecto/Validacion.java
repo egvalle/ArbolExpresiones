@@ -86,7 +86,7 @@ public class Validacion {
                 //si no es un digito corta y mandalo a la pila
 
                 //si la cadena numero empieza con negativo entonces va a ser un numeroo negativo
-                if (numero.startsWith("-")&&(i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
+                if (numero.startsWith("-") && (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
                     expresionPostfija.add(numero);
                     numero = "";
                 } else if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
@@ -128,28 +128,13 @@ public class Validacion {
         String numero = "";
 
 //        int contadorPrueba = 0;
-        for (int i = expresion.length() - 1; i >= 0; i--) {
-            if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
-                //concatenar la cadena de numeros
-                numero = expresion.charAt(i) + numero;
-                //si no es un digito corta y mandalo a la pila
-
-                if (numero.endsWith("-") && (i == 0 || !Character.isDigit(expresion.charAt(i - 1)))) {
-                    expresionPreOrden.add(numero);
-                    numero = "";
-                } else if (!Character.isDigit(expresion.charAt(i))) {
-                    // Si el caracter actual no es un dígito, se añade el número actual a la pila y se reinicia `numero`
-                    expresionPreOrden.add(numero);
-                    numero = "";
-                }
-            } //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores
-            //si es un operador o abre un parentesis manda la expresion a la pila de operadores
-            else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {
+        for (int i = 0; i < expresion.length(); i++) {
+            if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {
                 operadores.add(String.valueOf(expresion.charAt(i)));
                 //si encuentras el parentesis que abre entonces limpia la pila de operadores hasta el parentesis de cierre
-            } else if (expresion.charAt(i) == '(') { //cuando encuentre un parentesis de cierre
+            } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre
                 //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de cierre
-                while (!operadores.isEmpty() && !operadores.peek().equals(")")) {
+                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
                     //lo operadores los agregea a la pila que vamos a retornar como resultado 
                     expresionPreOrden.add(operadores.pop());
                 }
@@ -157,6 +142,21 @@ public class Validacion {
                 operadores.pop();
                 //si el caracter es un numero
             }
+            else if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
+                //concatenar la cadena de numeros
+                numero += expresion.charAt(i);
+                //si no es un digito corta y mandalo a la pila
+                if (numero.startsWith("-") && (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
+                    expresionPreOrden.add(numero);
+                    numero = "";
+                } else if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+//aniade al rsultado el numero 
+                    expresionPreOrden.add(numero);
+                    numero = "";
+                }
+                //si es un operador o abre un parentesis manda la expresion a la pila de operadores
+            } //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores
+            
         }
         //por ultimo supongamos el caso (a+b)-(c-d)
         //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz
@@ -165,14 +165,10 @@ public class Validacion {
         }
         //dado que agregamos de derecha a izquierda lo que tenemos que hacer para fformatearlo bien es volver a leerlo al revez
         System.out.println("Expresion PreOrden  [R-I-D]");
-        for (int i = expresionPreOrden.size() - 1; i >= 0; i--) {
-            System.out.print(expresionPreOrden.get(i) + " ");
+        for (String dato : expresionPreOrden) {
+            System.out.print(dato + " ");
         }
         System.out.println();
-
-        for (String dato : expresionPreOrden) {
-            System.out.println(dato);
-        }
         return expresionPreOrden;
     }
 
