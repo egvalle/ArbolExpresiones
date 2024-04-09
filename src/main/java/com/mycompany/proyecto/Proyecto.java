@@ -41,6 +41,7 @@ public class Proyecto {
 
         do {
             System.out.println("Seleccione una opcion: ");
+            System.out.println("Operaciones (+,-,*,/,^,#)");
             System.out.println("[1]\t Ingresar expresion");
             System.out.println("[2]\t Generar arbol");
             System.out.println("[3]\t Salir");
@@ -67,7 +68,7 @@ public class Proyecto {
                     //preorodenRID
                     //inordenIRD
                     //postorden IDR
-                    expresionPostfija = validar.conversionPostorden(expresionNueva);
+                     expresionPostfija = validar.conversionPostorden(expresionNueva);
                     //asignamos la pila de postOrden a el arbool para coonstruirse
                     ArbolExpresion = arbol.ArbolExpresion(expresionPostfija);
                     //ya con el arbol construido podemos recorrerlo
@@ -81,13 +82,14 @@ public class Proyecto {
                      */
 //retornamos una pila al reves de validacion
                     //expresionPolaca = validar.conversionPreorden(expresionNueva);
-                    System.out.println("Expresion InOrden   [R-I-D]");
-                    expresionPolaca = arbol.obtenerPreorden(expresionPostfija);
-                    arbol.recorrerPreOrden(ArbolExpresion);
+                    System.out.println("Expresion PreOrden   [R-I-D]");
+                    arbol.recorrerPreorden(ArbolExpresion);
                     System.out.println();
 
 //aqui tengo que pasarle la pila a funcion para evaluar [recordar]
-                    validar.resultadoNotacionPolaca(expresionPolaca);
+                    String resultado = validar.resultadoNotacionPolaca(ArbolExpresion);
+                    System.out.println("El resultado de evaluar la Notación Polaca es: " + resultado);
+
                     break;
                 case 2:
                     Pintar(ArbolExpresion);

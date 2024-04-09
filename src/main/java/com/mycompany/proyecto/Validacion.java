@@ -15,7 +15,7 @@ import java.util.Stack;
 public class Validacion {
 
     //private char[] permitidos = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-    private String[] permitidos = {"(", ")", "√", "^", "*", "/", "+", "-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",};
+    private String[] permitidos = {"(", ")", "#", "^", "*", "/", "+", "-", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",};
 
 //asigna valores a las variables ingresadas
     public String colocarVariables(String expresion, String caracter, String valor) {
@@ -42,16 +42,16 @@ public class Validacion {
         //verificamos que lo que le estamos pasando sean variables en la expresion en casoo las halla
         int contador = 0;
         //colocamos los numeros por que tambien vamos a podoer pasarle numeros ya en la expresion
-        char[] noVariables = {'(', ')', '√', '^', '*', '/', '+', '-', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        String[] noVariables = {"(", ")", "#", "^", "*", "/", "+", "-", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9"};
         //recorremoos
         for (int i = 0; i < expresion.length(); i++) {
             //guardamos el caracter en una variable de tipo char
-            char caracter = expresion.charAt(i);
+            String caracter = String.valueOf(expresion.charAt(i));
             //creamos una flag que nos diggag si es variable oo noo
             boolean esVariable = true;
             //si el caracter esta en los no permitidos entonces vas a retornar falso y saldras del bucle por que ya encontraste algo
-            for (char noVariable : noVariables) {
-                if (caracter == noVariable) {
+            for (String noVariable : noVariables) {
+                if (caracter.equalsIgnoreCase(noVariable)) {
                     esVariable = false;
                     break;
                 }
@@ -75,36 +75,62 @@ public class Validacion {
         Stack<String> expresionPostfija = new Stack<>();
         Stack<String> operadores = new Stack<>();
         String numero = "";
-
 //        int contadorPrueba = 0;
         for (int i = 0; i < expresion.length(); i++) {
 
 //si es un numero
-            if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
+            if (Character.isDigit(expresion.charAt(i))) {
                 //concatenar la cadena de numeros
                 numero += expresion.charAt(i);
                 //si no es un digito corta y mandalo a la pila
-
                 //si la cadena numero empieza con negativo entonces va a ser un numeroo negativo
-                if (numero.startsWith("-") && (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
-                    expresionPostfija.add(numero);
-                    numero = "";
-                } else if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
 //aniade al rsultado el numero 
                     expresionPostfija.add(numero);
                     numero = "";
                 }
                 //si es un operador o abre un parentesis manda la expresion a la pila de operadores
-            } else if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == '(') {
+            } else if (expresion.charAt(i) == '-') {
+                // Verificar si el signo menos es parte de un número negativo
+                // o si es un operador de resta
+                if (i == 0 || (!Character.isDigit(expresion.charAt(i - 1)) && expresion.charAt(i - 1) != '-')) {
+                    // Si el signo menos está al principio de la expresión
+                    // o si el carácter anterior no es un dígito ni un signo menos,
+                    // entonces es un número negativo
+                    numero += expresion.charAt(i);
+                    // Verificar si el siguiente carácter es un dígito
+                    if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+                        // Agregar el número negativo a la expresión postfija
+                        expresionPostfija.add(numero);
+                        numero = ""; // Reiniciar la cadena para el siguiente número
+                    }
+                } else {
+                    // Si no es un número negativo, es un operador de resta
+                    // Agregarlo a la pila de operadores
+                    while (!operadores.isEmpty() && !operadores.peek().equals("(") && jerarquiaOperaciones(operadores.peek()) >= jerarquiaOperaciones(String.valueOf(expresion.charAt(i)))) {
+                        expresionPostfija.add(String.valueOf(operadores.pop()));
+                    }
+                    operadores.add(String.valueOf(expresion.charAt(i)));
+                }
+            } else if (expresion.charAt(i) == '(') {
                 operadores.add(String.valueOf(expresion.charAt(i)));
-                //si encuentras el cierre entonces
+
             } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre
+                //si encuentras el cierre entonces
                 //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de apertura
                 while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
                     expresionPostfija.add(operadores.pop());
                 }
                 //cuando encuentres el parentesis de apertura sacalo
                 operadores.pop();
+            } else if (esOperador(String.valueOf(expresion.charAt(i)))) {
+                // Si es un operador manejamos la jerarquía de operaciones
+                while (!operadores.isEmpty() && !operadores.peek().equals("(") && jerarquiaOperaciones(operadores.peek()) >= jerarquiaOperaciones(String.valueOf(expresion.charAt(i)))) {
+                    expresionPostfija.add(String.valueOf(operadores.pop()));
+                }
+//                System.out.println(String.valueOf(expresion.charAt(i)) + " ");
+
+                operadores.add(String.valueOf(expresion.charAt(i)));
             }
         }
         //por ultimo supongamos el caso (a+b)-(c-d)
@@ -120,105 +146,66 @@ public class Validacion {
         return expresionPostfija;
     }
 
-    //realiza la conversion de inorden a preorden
-    public Stack<String> conversionPreorden(String expresion) {
-        //la primerma condicion es recorrer de derecha a izquierda la expresion
-        Stack<String> expresionPreOrden = new Stack<>();
-        Stack<String> operadores = new Stack<>();
-        String numero = "";
-
-//        int contadorPrueba = 0;
-        for (int i = 0; i < expresion.length(); i++) {
-            if (esOperador(String.valueOf(expresion.charAt(i))) || expresion.charAt(i) == ')') {
-                operadores.add(String.valueOf(expresion.charAt(i)));
-                //si encuentras el parentesis que abre entonces limpia la pila de operadores hasta el parentesis de cierre
-            } else if (expresion.charAt(i) == ')') { //cuando encuentre un parentesis de cierre
-                //recorre la pila mientras no este vacia  y que la cima de la pila sea distinta al parentesis de cierre
-                while (!operadores.isEmpty() && !operadores.peek().equals("(")) {
-                    //lo operadores los agregea a la pila que vamos a retornar como resultado 
-                    expresionPreOrden.add(operadores.pop());
-                }
-                //cuando encuentres el parentesis de apertura sacalo
-                operadores.pop();
-                //si el caracter es un numero
-            }
-            else if (Character.isDigit(expresion.charAt(i)) || expresion.charAt(i) == '-') {
-                //concatenar la cadena de numeros
-                numero += expresion.charAt(i);
-                //si no es un digito corta y mandalo a la pila
-                if (numero.startsWith("-") && (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1)))) {
-                    expresionPreOrden.add(numero);
-                    numero = "";
-                } else if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
-//aniade al rsultado el numero 
-                    expresionPreOrden.add(numero);
-                    numero = "";
-                }
-                //si es un operador o abre un parentesis manda la expresion a la pila de operadores
-            } //si es operador o empieza con un parentesis cerrado ya que lo estamos recorriendo al revez agregalo a la pila de operadores
-            
+    private Double resolverNotacionPolaca(Nodo arbol) {
+        double resultado = 0.0;
+// Si el dato no es un operador, es un operando, lo agregamos a la pila de resultados
+        if (!esOperador(arbol.getActual())) {
+            return Double.valueOf(arbol.getActual());
+            //enn caos de que sea negativo
+        } else if (esOperador(arbol.getActual())) {
+            resultado += realizarOperacion(arbol);
         }
-        //por ultimo supongamos el caso (a+b)-(c-d)
-        //como al haber parentesis se va a truncar hasta el abierto quedara el - en la pila recorreremos lo ultimo que tengag la pila affuera del bucle para obtener la raiz
-        while (!operadores.isEmpty()) {
-            expresionPreOrden.add(operadores.pop());
-        }
-        //dado que agregamos de derecha a izquierda lo que tenemos que hacer para fformatearlo bien es volver a leerlo al revez
-        System.out.println("Expresion PreOrden  [R-I-D]");
-        for (String dato : expresionPreOrden) {
-            System.out.print(dato + " ");
-        }
-        System.out.println();
-        return expresionPreOrden;
+        return resultado;
     }
 
-    //como estamos trabajando tanto con raices o division puede devolvernos valores double
-    public void resultadoNotacionPolaca(Stack<String> expresionPila) {
-        Stack<String> pilaOperadoresOperandos = new Stack<>();
-        for (String dato : expresionPila) {
-            if (!esOperador(dato)) {
-                //ccrea un nodo del operando
-                pilaOperadoresOperandos.add(dato);
-                // los siguiente operandos
-            } else if (esOperador(dato)) {
-                //obtenemos el operadoor que vamooos a evaluar
-                String Operador = dato;
-                //otorgamos valor al operando derecho
-                Double operandoDerecho = Double.valueOf(pilaOperadoresOperandos.pop());
-                //otorgamos valor al operando izquierdo
-                Double operandoIzquierdo = Double.valueOf(pilaOperadoresOperandos.pop());
-                //obtenemos el resultadoo de evaluar lao operacion y poosteriormente la convertimos a string para guardarlo en la pila
-                String resultado = String.valueOf(realizarOperacion(Operador, operandoDerecho, operandoIzquierdo));
-                pilaOperadoresOperandos.add(resultado);
-            }
-        }
-        System.out.println("El resultado de evaluar la Notacion Polaca es: " + pilaOperadoresOperandos.pop());
+    public String resultadoNotacionPolaca(Nodo arbol) {
+        String resultado = "";
+        resultado = String.valueOf(resolverNotacionPolaca(arbol));
+        //System.out.println("Raíz del árbol de expresión: " + Arbol.getActual());
+        return resultado;
     }
-// aqui evaluamos los opoeradores  y retornamos el resultadoo
 
-    private double realizarOperacion(String operador, double operandoDerecha, double operandoIzquierda) {
-        switch (operador) {
+    // aqui evaluamos los opoeradores  y retornamos el resultadoo
+    private double realizarOperacion(Nodo arbol) {
+        double resultado = 0.0;
+        switch (arbol.getActual()) {
             case "+":
-                return operandoDerecha + operandoIzquierda;
+                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
+                break;
             case "-":
-                return operandoDerecha - operandoIzquierda;
+                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) - resolverNotacionPolaca(arbol.getNodoDerecha());
+                break;
             case "*":
-                return operandoDerecha * operandoIzquierda;
+                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) * resolverNotacionPolaca(arbol.getNodoDerecha());
+                break;
             case "/":
-                return operandoDerecha / operandoIzquierda;
+                if (Double.valueOf(arbol.getNodoDerecha().getActual()) != 0) {
+                    resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) / resolverNotacionPolaca(arbol.getNodoDerecha());
+                    break;
+                } else {
+                    System.out.println("Ideterminado");
+                    return 0.0; // Manejar el caso de división por cero
+                }
             case "^":
-                return Math.pow(operandoIzquierda, operandoDerecha);
-            case "^1/n":
+                if (Double.valueOf(arbol.getNodoIzquierda().getActual()) < 0) {
+                    resultado += (Math.pow(resolverNotacionPolaca(arbol.getNodoIzquierda()), resolverNotacionPolaca(arbol.getNodoDerecha()))) * -1;
+                    break;
+                }
+                resultado += Math.pow(resolverNotacionPolaca(arbol.getNodoIzquierda()), resolverNotacionPolaca(arbol.getNodoDerecha()));
+                break;
+            case "#":
                 //para utilizar mayor exactitud usamos 1.0 para permitir decimales
                 //dado que java si cuenta con una funcion raiz pero limitada al indice 2
                 //usamos x^1/2 que seria lo mismo que 2√x^1
                 // el segundo parametro representa a 1/ operando -> operando^-1
                 // el primero a ^ operandoDrecha
                 // por ultimo ^OperandoDerecha/Operando Izquierda
-                return Math.pow(operandoDerecha, 1.0 / operandoIzquierda);
+                double indice = resolverNotacionPolaca(arbol.getNodoIzquierda());
+                double radicando = resolverNotacionPolaca(arbol.getNodoDerecha());
+                resultado += Math.pow(radicando, 1.0 / indice);
+                break;
         }
-        //si ninguno coincide retorna 
-        return 0.0;
+        return resultado;
     }
 
     //evalua el caracter que te pase si coincide devuelve true
@@ -230,10 +217,26 @@ public class Validacion {
             case "*":
             case "/":
             case "^":
-            case "^1/n":
+            case "#":
                 return true;
             default:
                 return false;
+        }
+    }
+
+    public int jerarquiaOperaciones(String caracter) {
+        switch (caracter) {
+            case "+":
+            case "-":
+                return 1;
+            case "*":
+            case "/":
+                return 2;
+            case "^":
+            case "#":
+                return 3;
+            default:
+                return 0;
         }
     }
 

@@ -36,10 +36,14 @@ public class Arbol {
 //a+b -> b+a
         for (String dato : pilaPostfija) {
             //el primer valor deberia ser la raiz osea un operador
-            if (!validar.esOperador(dato) || dato.contains("-")) {
+            if (!validar.esOperador(dato)) {
                 //ccrea un nodo del operando
                 pilaNodo.add(new Nodo(dato));
                 // los siguiente operandos
+                
+                //si es mayor o igual que 2 quiere decir que coontiene -2 -23 etc
+            } else if ((dato.contains("-") && dato.length() >=2)&& !validar.esOperador(dato)) {
+                pilaNodo.add(new Nodo(dato));
             } else if (validar.esOperador(dato)) {
                 Nodo raiz = new Nodo(dato);
                 Nodo hijoDerecho = pilaNodo.pop();
@@ -52,25 +56,7 @@ public class Arbol {
         return pilaNodo.pop();
     }
 
-    public Stack<String> obtenerPreorden(Stack<String> expresionPostfija) {
-        Stack<String> pilaPostfija = expresionPostfija;
-        Stack<String> pilaPolaca = new Stack<>();
-
-        for (String dato : pilaPostfija) {
-            if (validar.esOperador(dato)) {
-                //ccrea un nodo del operando
-                pilaPolaca.add(dato);
-                // los siguiente operandos
-            } 
-            if (!validar.esOperador(dato) || (!validar.esOperador(dato) && dato.contains("-"))) {
-                pilaPolaca.add(dato);
-            }
-        }
-
-        return pilaPolaca;
-    }
-
-    public void recorrerPreOrden(Nodo nodo) {
+    public void recorrerPreorden(Nodo nodo) {
         if (nodo != null) {
             System.out.print(nodo.getActual() + " ");
             if (nodo.getNodoIzquierda() != null) {
@@ -81,7 +67,7 @@ public class Arbol {
             }
         }
     }
-    
+
     public void recorrerInorden(Nodo nodo) {
         if (nodo != null) {
             if (nodo.getNodoIzquierda() != null) {
@@ -93,7 +79,17 @@ public class Arbol {
             }
         }
     }
-
+   /*public void postOrden(Nodo nodo) {
+        if (nodo != null) {
+            if (nodo.getNodoIzquierda() != null) {
+                recorrerInorden(nodo.getNodoIzquierda());
+            }
+            if (nodo.getNodoDerecha() != null) {
+                recorrerInorden(nodo.getNodoDerecha());
+            }
+            System.out.print(nodo.getActual() + " ");
+        }
+    }*/
 }
 
 /*
