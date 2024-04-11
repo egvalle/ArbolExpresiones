@@ -75,6 +75,7 @@ public class Validacion {
         Stack<String> expresionPostfija = new Stack<>();
         Stack<String> operadores = new Stack<>();
         String numero = "";
+        String numeroNegativo = "";
 //        int contadorPrueba = 0;
         for (int i = 0; i < expresion.length(); i++) {
 
@@ -90,27 +91,15 @@ public class Validacion {
                     numero = "";
                 }
                 //si es un operador o abre un parentesis manda la expresion a la pila de operadores
-            } else if (expresion.charAt(i) == '-') {
-                // Verificar si el signo menos es parte de un número negativo
-                // o si es un operador de resta
-                if (i == 0 || (!Character.isDigit(expresion.charAt(i - 1)) && expresion.charAt(i - 1) != '-')) {
-                    // Si el signo menos está al principio de la expresión
-                    // o si el carácter anterior no es un dígito ni un signo menos,
-                    // entonces es un número negativo
-                    numero += expresion.charAt(i);
-                    // Verificar si el siguiente carácter es un dígito
-                    if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
-                        // Agregar el número negativo a la expresión postfija
-                        expresionPostfija.add(numero);
-                        numero = ""; // Reiniciar la cadena para el siguiente número
-                    }
-                } else {
-                    // Si no es un número negativo, es un operador de resta
-                    // Agregarlo a la pila de operadores
-                    while (!operadores.isEmpty() && !operadores.peek().equals("(") && jerarquiaOperaciones(operadores.peek()) >= jerarquiaOperaciones(String.valueOf(expresion.charAt(i)))) {
-                        expresionPostfija.add(String.valueOf(operadores.pop()));
-                    }
-                    operadores.add(String.valueOf(expresion.charAt(i)));
+            } else if (expresion.charAt(i) == '-' && (i == 0 || esOperador(String.valueOf(expresion.charAt(i - 1))))) {
+                // entonces es un número negativo
+                numero = expresion.charAt(i) + numero;
+                // Verificar si el siguiente carácter es un dígito
+                if (i == expresion.length() - 1 || !Character.isDigit(expresion.charAt(i + 1))) {
+                    // Agregar el número negativo a la expresión postfija
+                    System.out.println(numero + " b");
+                    expresionPostfija.add(numero);
+                    numero = ""; // Reiniciar la cadena para el siguiente número
                 }
             } else if (expresion.charAt(i) == '(') {
                 operadores.add(String.valueOf(expresion.charAt(i)));
@@ -123,7 +112,7 @@ public class Validacion {
                 }
                 //cuando encuentres el parentesis de apertura sacalo
                 operadores.pop();
-            } else if (esOperador(String.valueOf(expresion.charAt(i)))) {
+            } else if (esOperador(String.valueOf(expresion.charAt(i))) || !esOperador(String.valueOf(expresion.charAt(i - 1)))) {
                 // Si es un operador manejamos la jerarquía de operaciones
                 while (!operadores.isEmpty() && !operadores.peek().equals("(") && jerarquiaOperaciones(operadores.peek()) >= jerarquiaOperaciones(String.valueOf(expresion.charAt(i)))) {
                     expresionPostfija.add(String.valueOf(operadores.pop()));
@@ -173,6 +162,10 @@ public class Validacion {
                 resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
                 break;
             case "-":
+                if (Double.valueOf(arbol.getNodoDerecha().getActual()) < 0 && Double.valueOf(arbol.getNodoIzquierda().getActual()) < 0) {
+                    resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
+                    break;  
+                }
                 resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) - resolverNotacionPolaca(arbol.getNodoDerecha());
                 break;
             case "*":

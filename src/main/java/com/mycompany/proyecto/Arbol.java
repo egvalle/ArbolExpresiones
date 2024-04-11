@@ -34,6 +34,7 @@ public class Arbol {
         Stack<Nodo> pilaNodo = new Stack<>();
 //En el casoo de que se recorra de Izquierda a derecha queda de la siguiente manera        
 //a+b -> b+a
+
         for (String dato : pilaPostfija) {
             //el primer valor deberia ser la raiz osea un operador
             if (!validar.esOperador(dato)) {
@@ -42,9 +43,7 @@ public class Arbol {
                 // los siguiente operandos
                 
                 //si es mayor o igual que 2 quiere decir que coontiene -2 -23 etc
-            } else if ((dato.contains("-") && dato.length() >=2)&& !validar.esOperador(dato)) {
-                pilaNodo.add(new Nodo(dato));
-            } else if (validar.esOperador(dato)) {
+            } else {
                 Nodo raiz = new Nodo(dato);
                 Nodo hijoDerecho = pilaNodo.pop();
                 Nodo hijoIzquierdo = pilaNodo.pop();
