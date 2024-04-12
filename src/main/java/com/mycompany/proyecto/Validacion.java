@@ -155,51 +155,51 @@ public class Validacion {
     }
 
     // aqui evaluamos los opoeradores  y retornamos el resultadoo
-    private double realizarOperacion(Nodo arbol) {
-        double resultado = 0.0;
-        switch (arbol.getActual()) {
-            case "+":
-                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
-                break;
-            case "-":
-                if (Double.valueOf(arbol.getNodoDerecha().getActual()) < 0 && Double.valueOf(arbol.getNodoIzquierda().getActual()) < 0) {
-                    resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
-                    break;  
-                }
-                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) - resolverNotacionPolaca(arbol.getNodoDerecha());
-                break;
-            case "*":
-                resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) * resolverNotacionPolaca(arbol.getNodoDerecha());
-                break;
-            case "/":
-                if (Double.valueOf(arbol.getNodoDerecha().getActual()) != 0) {
-                    resultado += resolverNotacionPolaca(arbol.getNodoIzquierda()) / resolverNotacionPolaca(arbol.getNodoDerecha());
-                    break;
-                } else {
-                    System.out.println("Ideterminado");
-                    return 0.0; // Manejar el caso de división por cero
-                }
-            case "^":
-                if (Double.valueOf(arbol.getNodoIzquierda().getActual()) < 0) {
-                    resultado += (Math.pow(resolverNotacionPolaca(arbol.getNodoIzquierda()), resolverNotacionPolaca(arbol.getNodoDerecha()))) * -1;
-                    break;
-                }
-                resultado += Math.pow(resolverNotacionPolaca(arbol.getNodoIzquierda()), resolverNotacionPolaca(arbol.getNodoDerecha()));
-                break;
-            case "#":
-                //para utilizar mayor exactitud usamos 1.0 para permitir decimales
-                //dado que java si cuenta con una funcion raiz pero limitada al indice 2
-                //usamos x^1/2 que seria lo mismo que 2√x^1
-                // el segundo parametro representa a 1/ operando -> operando^-1
-                // el primero a ^ operandoDrecha
-                // por ultimo ^OperandoDerecha/Operando Izquierda
-                double indice = resolverNotacionPolaca(arbol.getNodoIzquierda());
-                double radicando = resolverNotacionPolaca(arbol.getNodoDerecha());
-                resultado += Math.pow(radicando, 1.0 / indice);
-                break;
-        }
-        return resultado;
+private double realizarOperacion(Nodo arbol) {
+    double resultado = 0.0;
+    switch (arbol.getActual()) {
+        case "+":
+            resultado = resolverNotacionPolaca(arbol.getNodoIzquierda()) + resolverNotacionPolaca(arbol.getNodoDerecha());
+            break;
+        case "-":
+            double izquierda = resolverNotacionPolaca(arbol.getNodoIzquierda());
+            double derecha = resolverNotacionPolaca(arbol.getNodoDerecha());
+            if (izquierda < 0 && derecha < 0) {
+                resultado = izquierda - derecha; // Ambos son negativos, por lo que sumamos
+            } else {
+                resultado = izquierda - derecha; // Restamos normalmente
+            }
+            break;
+        case "*":
+            resultado = resolverNotacionPolaca(arbol.getNodoIzquierda()) * resolverNotacionPolaca(arbol.getNodoDerecha());
+            break;
+        case "/":
+            double divisor = resolverNotacionPolaca(arbol.getNodoDerecha());
+            if (divisor != 0) {
+                resultado = resolverNotacionPolaca(arbol.getNodoIzquierda()) / divisor;
+            } else {
+                System.out.println("Indeterminado");
+                return 0.0; // Manejar el caso de división por cero
+            }
+            break;
+        case "^":
+            double base = resolverNotacionPolaca(arbol.getNodoIzquierda());
+            double exponente = resolverNotacionPolaca(arbol.getNodoDerecha());
+            if (base < 0) {
+                resultado = Math.pow(-base, exponente) * -1; // Tratamos la base negativa
+            } else {
+                resultado = Math.pow(base, exponente);
+            }
+            break;
+        case "#":
+            double indice = resolverNotacionPolaca(arbol.getNodoIzquierda());
+            double radicando = resolverNotacionPolaca(arbol.getNodoDerecha());
+            resultado = Math.pow(radicando, 1.0 / indice);
+            break;
     }
+    return resultado;
+}
+
 
     //evalua el caracter que te pase si coincide devuelve true
     public boolean esOperador(String caracter) {
