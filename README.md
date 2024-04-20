@@ -553,6 +553,10 @@ La función validarExpresion verifica si una expresión dada contiene únicament
             }
             //si no lo encontraste no es una expresion valida
             if (!encontrado) {
+
+https://github.com/egvalle/ArbolExpresiones/assets/104967229/8053ae70-255b-4949-8a16-8cc4fc1b65a4
+
+
                 System.out.println("La expresión contiene caracteres no permitidos.");
                 return false;
             }
@@ -566,8 +570,9 @@ La función validarExpresion verifica si una expresión dada contiene únicament
 
 Se adjunta video de prueba del funcionamiento del codigo.
 
-https://github.com/egvalle/ArbolExpresiones/assets/104967229/2170cf20-e91f-4731-a001-b9ca83c329b0
+ https://github.com/egvalle/ArbolExpresiones/assets/104967229/2170cf20-e91f-4731-a001-b9ca83c329b0
 
-
+Video Corregido
+https://github.com/egvalle/ArbolExpresiones/assets/104967229/b1a799af-382a-4f65-ad14-9dbe7081b9c4
 
 
