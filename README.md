@@ -573,6 +573,7 @@ Se adjunta video de prueba del funcionamiento del codigo.
  https://github.com/egvalle/ArbolExpresiones/assets/104967229/2170cf20-e91f-4731-a001-b9ca83c329b0
 
 Video Corregido
-https://github.com/egvalle/ArbolExpresiones/assets/104967229/b1a799af-382a-4f65-ad14-9dbe7081b9c4
+
+ https://github.com/egvalle/ArbolExpresiones/assets/104967229/b1a799af-382a-4f65-ad14-9dbe7081b9c4
 
 
